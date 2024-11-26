@@ -6,7 +6,28 @@ export default {
       "./resources/**/*.vue",
     ],
     theme: {
-      extend: {},
+        extend: {
+            fontSize: {
+                xxs: "9px",
+            },
+            backgroundColor: {
+                primary: "#0C609E",
+                utama: "#6256CA",
+                primaryDark: "#B48C5E",
+                primaryLight: "#ECDBC9",
+                landingMenu: "#FFFAF3",
+            },
+            colors: {
+                primary: "#0C609E",
+                primaryDark: "#B48C5E",
+                primaryLight: "#ECDBC9",
+                gray1: "#2C2C2C",
+                gray2: "#6D6D6D",
+                gray3: "#4D4D4D",
+                gray4: "#3E3E3E",
+                brown1: "#745E3B",
+            },
+        },
     },
     plugins: [],
   }
