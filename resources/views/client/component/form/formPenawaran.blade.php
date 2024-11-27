@@ -3,8 +3,11 @@
     <div class="md:mb-10 text-center pt-18">
         <img class="w-3/4 mx-auto md:w-1/4" src="{{ asset('images/logo.png') }}" alt="">
         {{-- <h2 class="text-2xl text-center font-bold mb-6">Please Fill This Form Below </h2> --}}
-        <h2 class="text-xl font-bold mt-6 text-blue-700 "><label for="" class="text-blue-900 uppercase">[
-                {{ $perumahan->perumahan }}]</label> E-Booklet & Pricelist Request</h2>
+        <h2 class="text-xl font-bold mt-6 text-blue-700">
+            <label for="" class="text-blue-900 uppercase">[
+                {{ $selectedPerumahan->perumahan }}
+                ]</label> E-Booklet & Pricelist Request
+        </h2>
 
     </div>
     <form method="post"  action="{{ route('form.penawaran') }}"
@@ -60,7 +63,7 @@
                 </div>
             </div>
             <div class="mb-5">
-                <label for="pekerjaan" class="form-label block mb-2 text-sm font-medium"><i class="fas fa-user text-gray-400 mr-2"></i>Pekerjaan</label>
+                <label for="pekerjaan" class="form-label block mb-2 text-sm font-medium"><i class="fas fa-briefcase text-gray-400 mr-2"></i>Pekerjaan</label>
                 <select id="pekerjaaan" name="pekerjaan"
                     class="form-select bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  ">
                     <option value="">-- Pilih --</option>
@@ -75,7 +78,7 @@
                     @enderror
             </div>
             <div class="mb-5 relative">
-                <label for="nama_kantor" class="form-label block mb-2 text-sm font-medium"><i class="fas fa-briefcase text-gray-400 mr-2"></i>Nama Kantor
+                <label for="nama_kantor" class="form-label block mb-2 text-sm font-medium"><i class="fas fa-building text-gray-400 mr-2"></i>Nama Kantor
                 </label>
                 <div class="input-with-icon">
                     <input type="text" id="city-input" name="nama_kantor"
@@ -88,13 +91,14 @@
             </div>
             <div class="mb-5 hidden">
 
-                <input type="text" id="perumahan_id" name="perumahan_id" value=" {{ $perumahan->id }}"
+                <input type="text" id="perumahan_id" name="perumahan_id" value=" {{ $selectedPerumahan->id }}"
                     class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
             </div>
 
              {{-- ===== Perlu Ditambah === --}}
              <div id="dropdown-section" class="mb-5">
-                <label for="sumber_informasi" class="form-label block mb-2 text-sm font-medium">Dapat Informasi Dari (Dropdown)</label>
+
+                <label for="sumber_informasi" class="form-label block mb-2 text-sm font-medium"><i class="fas fa-users text-gray-400 mr-2"></i>Dapat Informasi Dari (Dropdown)</label>
                 <select id="sumber_informasi" name="sumber_informasi"
                     class="form-select bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <option value="">-- Pilih Sumber Informasi --</option>
@@ -138,28 +142,31 @@
 
             <div class="flex w-full gap-4 mb-5">
                 <div class="w-full">
-                    <label for="rumah_id" class="form-label block mb-2 text-sm font-medium">No Kavling</label>
+                    <label for="rumah_id" class="form-label block mb-2 text-sm font-medium"><i class="fas fa-home text-gray-400 mr-2"></i>No Kavling</label>
                     <select id="rumah_id" name="rumah_id"
                         class="form-select bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         <option value="">-- Pilih --</option>
                         @foreach ($rumah as $r)
                             <option value="{{ $r->id }}"
-                                data-lt="{{ $r->luas_tanah}}"
-                                data-lb="{{ $r->luas_bangunan}}"
-                                data-posisi="{{ $r->posisi}}"
-                                >
-                               {{ $r->no_kavling}}
+                                data-lt="{{ $r->luas_tanah }}"
+                                data-lb="{{ $r->luas_bangunan }}"
+                                data-posisi="{{ $r->posisi }}"
+                                {{ $r->status !== 'Available' ? 'disabled' : '' }}>
+                                {{ $r->no_kavling }}
+                                {{ $r->status !== 'Available' ? '(' . $r->status . ')' : '' }}
                             </option>
                         @endforeach
                     </select>
                     @error('rumah_id')
-                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                @enderror
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
 
+
+
             <div class="mb-5 relative">
-                <label for="luas_tanah" class="form-label block mb-2 text-sm font-medium "> <i class="fas fa-envelope text-gray-400 mr-2"></i>Luas Tanah</label>
+                <label for="luas_tanah" class="form-label block mb-2 text-sm font-medium "> <i class="fas fa-map-pin text-gray-400 mr-2"></i>Luas Tanah</label>
                 <div class="input-with-icon">
                     <input type="luas_tanah" id="luas_tanah" name="luas_tanah"
                         class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" readonly>
@@ -168,7 +175,7 @@
             </div>
 
             <div class="mb-5 relative">
-                <label for="luas_bangunan" class="form-label block mb-2 text-sm font-medium "> <i class="fas fa-envelope text-gray-400 mr-2"></i>Luas Bangunan</label>
+                <label for="luas_bangunan" class="form-label block mb-2 text-sm font-medium "> <i class="fas fa-map-marker text-gray-400 mr-2"></i>Luas Bangunan</label>
                 <div class="input-with-icon">
                     <input type="luas_bangunan" id="luas_bangunan" name="luas_bangunan"
                         class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" readonly>
@@ -176,7 +183,7 @@
             </div>
 
             <div class="mb-5 relative">
-                <label for="posisi" class="form-label block mb-2 text-sm font-medium "> <i class="fas fa-envelope text-gray-400 mr-2"></i>Posisi</label>
+                <label for="posisi" class="form-label block mb-2 text-sm font-medium "> <i class="fas fa-map text-gray-400 mr-2"></i>Posisi</label>
                 <div class="input-with-icon">
                     <input type="posisi" id="posisi" name="posisi"
                         class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" readonly>
@@ -184,7 +191,7 @@
             </div>
 
                 <div class="mb-5">
-                    <label for="payment" class="form-label block mb-2 text-sm font-medium"><i class="fas fa-user text-gray-400 mr-2"></i>Payment</label>
+                    <label for="payment" class="form-label block mb-2 text-sm font-medium"><i class="fa fa-credit-card text-gray-400 mr-2"></i>Payment</label>
                     <select id="payment" name="payment"
                         class="form-select bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  ">
                         <option value="">-- Pilih --</option>
@@ -198,7 +205,7 @@
                 </div>
 
                 <div class="mb-5">
-                    <label for="dp" class="form-label block mb-2 text-sm font-medium"><i class="fas fa-user text-gray-400 mr-2"></i>DP</label>
+                    <label for="dp" class="form-label block mb-2 text-sm font-medium"><i class="fa fa-percent text-gray-400 mr-2"></i>DP</label>
                     <select id="dp" name="dp"
                         class="form-select bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  ">
                         <option value="">-- Pilih --</option>
@@ -212,7 +219,7 @@
                 </div>
 
                 <div class="mb-5">
-                    <label for="income" class="form-label block mb-2 text-sm font-medium"><i class="fas fa-user text-gray-400 mr-2"></i>Income</label>
+                    <label for="income" class="form-label block mb-2 text-sm font-medium"><i class="fa fa-arrow-down text-gray-400 mr-2"></i>Income</label>
                     <select id="income" name="income"
                         class="form-select bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  ">
                         <option value="">-- Pilih --</option>
@@ -234,6 +241,28 @@
 
     </form>
 </div>
-<script>
+@if (session('success'))
+<div id="success-modal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+        <h2 class="text-xl font-bold text-green-600 mb-4">Berhasil!</h2>
+        <p class="text-gray-700">{{ session('success') }}</p>
+        <button id="close-modal" class="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+            Tutup
+        </button>
+    </div>
+</div>
+@endif
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const modal = document.getElementById('success-modal');
+        const closeModal = document.getElementById('close-modal');
+
+        if (modal && closeModal) {
+            closeModal.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+        }
+    });
 </script>
+

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('agents', function (Blueprint $table) {
             //
-            $table->date('tanggal')->nullable();
+            $table->string('alamat')->nullable();
         });
     }
 
@@ -24,7 +24,7 @@ return new class extends Migration
     {
         Schema::table('agents', function (Blueprint $table) {
             //
-            $table->dropColumn('tanggal');
+            $table->dropColumn('alamat');
         });
     }
 };

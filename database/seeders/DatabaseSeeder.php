@@ -27,9 +27,24 @@ class DatabaseSeeder extends Seeder
         // Category::factory(10)->create();
 
         User::create([
-            'name' => 'Admin MMI 2',
+            'name' => 'Super Admin',
+            'email' => 'superAdmin@gmail.com',
+            'password' => bcrypt('4dm1n!@#'),
+            'role' => 'admin',
+        ]);
+
+        User::create([
+            'name' => 'Rully',
             'email' => 'admin@gmail.com',
-            'password' => bcrypt('admin')
+            'password' => bcrypt('4dm1n2!@#'),
+            'role' => 'admin',
+        ]);
+
+        User::create([
+            'name' => 'Saled Admin',
+            'email' => 'salesAdmin@gmail.com',
+            'password' => bcrypt('sales4dm!n#@!'),
+            'role' => 'salesAdmin',
         ]);
 
         // Category::create([

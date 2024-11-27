@@ -69,7 +69,7 @@
                         </td>
                         <td>{{ $p->status }}</td>
                         <td>
-                            <a href='#' class="btn btn-primary btn-sm"><i class="bi bi-eye-fill"></i></a>
+                            {{-- <a href='#' class="btn btn-primary btn-sm"><i class="bi bi-eye-fill"></i></a> --}}
                             <a href="{{ route('admin.editPerumahan', ['id' => $p->id]) }}" class="btn btn-warning btn-sm">
                                 <i class="bi bi-pencil-square"></i>
                             </a>

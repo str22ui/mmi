@@ -7,22 +7,17 @@
         </svg>
     </button>
 
-    <div id="nav" class="hidden flex-col-reverse lg:block" ">
-        <section id="navMenu" class="flex flex-col lg:flex-row lg:mt-0 py-5 px-5 lg:px-12 xl:px-20 justify-evenly ">
+    <div id="nav" class="hidden flex-col-reverse lg:block">
+        <section id="navMenu" class="flex flex-col lg:flex-row lg:mt-0 py-5 px-5 lg:px-12 xl:px-20 justify-evenly">
             <a href="/">
-                @if (Request::is('visimisi') || Request::is('kalender') || Request::is('faq'))
-                    <img id="logo11" class="w-52 lg:w-64 xl:w-48" src="{{ asset('img/logo-visimisi.png') }}" alt="logo">
-                    <img id="logo12" class="w-52 hero-hidden lg:w-64 xl:w-48" src="{{ asset('img/logo.png') }}" alt="logo">
-                @else
-                    <img class="w-52 lg:w-64 xl:w-48" src="{{ asset('img/logo.png') }}" alt="logo">
-                @endif
+                <img class="w-52 lg:w-64 xl:w-48" src="{{ asset('img/logo.png') }}" alt="logo">
             </a>
-            <div class="flex flex-col lg:flex-row gap-5 mt-10 lg:mt-0 lg:items-center  text-white">
+            <div class="flex flex-col lg:flex-row gap-5 mt-10 lg:mt-0 lg:items-center text-white">
                 @include('client.component.NavigationComponent.Menu')
-
             </div>
         </section>
     </div>
+
 </nav>
 
 

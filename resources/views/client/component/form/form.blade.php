@@ -4,10 +4,10 @@
         <img class="w-3/4 mx-auto md:w-1/4" src="{{ asset('images/logo.png') }}" alt="">
         {{-- <h2 class="text-2xl text-center font-bold mb-6">Please Fill This Form Below </h2> --}}
         <h2 class="text-xl font-bold mt-6 text-blue-700 "><label for="" class="text-blue-900 uppercase">[
-                {{ $perumahan->perumahan }}]</label> E-Booklet & Pricelist Request</h2>
+                {{ $selectedPerumahan->perumahan }}]</label> E-Booklet & Pricelist Request</h2>
 
     </div>
-    <form method="POST" action="/form-create/{{ $perumahan->id }}"
+    <form method="POST" action="/form-create/{{ $selectedPerumahan->id }}"
         class="px-5 py-5 grid grid-cols-1 md:grid-cols-2 gap-4 text-col rounded-md">
         @csrf
         <!-- Bagian kiri form -->
@@ -97,9 +97,9 @@
                     @enderror
                 </div>
             </div>
-            <div class="mb-5 ">
+            <div class="mb-5" hidden>
 
-                <input type="text" id="city-input" name="perumahan" value=" {{ $perumahan->perumahan }}"
+                <input type="text" id="city-input" name="perumahan" value=" {{ $selectedPerumahan->perumahan }}"
                     class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
             </div>
             {{-- ===== Perlu Ditambah === --}}
@@ -127,7 +127,7 @@
                         <label for="agent_id" class="form-label block mb-2 text-sm font-medium ">Nama Agent</label>
                         <select id="agent_id" name="agent_id"
                             class="form-select bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
-                            <option value="pilih">-- Pilih --</option>
+                            <option value="">-- Pilih --</option>
                             @foreach ($agents as $agent)
                                 <option value="{{ $agent->id }}" data-kantor="{{ $agent->kantor }}">{{ $agent->nama }} - {{ $agent->kantor }}</option>
                             @endforeach

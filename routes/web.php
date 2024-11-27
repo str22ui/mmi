@@ -19,7 +19,7 @@ use App\Http\Controllers\ManagementController;
 */
 Route::middleware(['auth'])->group(function () {
     // Logout route
-    Route::get('/logout',  [AuthController::class, 'logout']);
+    Route::post('/logout',  [AuthController::class, 'logout']);
     Route::get('/dashboard', [AdminController::class, 'indexAdmin'])->name('admin.index');
 
 
@@ -71,7 +71,7 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/deletePerumahan', [AdminController::class, 'destroyPerumahan'])->name('admin.deletePerumahan');
 
         Route::get('/rumah', [AdminController::class, 'indexRumah'])->name('admin.rumah');
-        Route::get('/showRumah', [AdminController::class, 'showRumah'])->name('admin.showRuma');
+        Route::get('/showRumah', [AdminController::class, 'showRumah'])->name('admin.showRumah');
         Route::get('/createRumah', [AdminController::class, 'createRumah'])->name('admin.createRumah');
         Route::post('/storeRumah', [adminController::class, 'storeRumah'])->name('admin.storeRumah');
         Route::get('/rumah/{id}/', [AdminController::class, 'editRumah'])->name('admin.editRumah');

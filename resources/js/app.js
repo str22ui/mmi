@@ -35,7 +35,7 @@ window.addEventListener("scroll", () => {
     let yScroll = window.scrollY;
 
     if (lg) {
-        if (yScroll > 70) {
+        if (yScroll > 0) {
             navMenu.style.background = "#0C609E";
             fonts.forEach((font) => {
                 font.style.color = "#FFFFFF"; // Ganti warna font jadi putih saat scroll

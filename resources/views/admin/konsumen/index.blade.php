@@ -40,7 +40,7 @@
                     <td>{{ $k->email }}</td>
                     <td>{{ $k->agent->nama ?? 'No Data'}}</td>
                     <td>
-                        <a href='' class="btn btn-primary btn-sm"><i class="bi bi-eye-fill"></i></a>
+                        {{-- <a href='' class="btn btn-primary btn-sm"><i class="bi bi-eye-fill"></i></a> --}}
                         {{-- <a href='{{ route('admin.showEbook', ['ebook' => $e->slug])  }}' class="btn btn-primary btn-sm"><i class="bi bi-eye-fill"></i></a> --}}
                         <a href="" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
                         <form onsubmit="return confirm('Apakah anda yakin ingin menghapus data?')" class="d-inline" action="{{ route('admin.deleteKonsumen') }}" method="POST">

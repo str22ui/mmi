@@ -36,7 +36,7 @@
                     <p class="text-xl">@sheviaheights</p>
                 </div>
                 <div class="flex items-center justify-center md:justify-end">
-                    <a href="#"><img src="{{ asset('img/asset/logo-instagram.png') }}" alt="Instagram" class="w-6 h-6 mr-2"></a>
+                    <a href="https://www.instagram.com/sheviaheights/profilecard/?igsh=Zm5uazV2azA2OWp4"><img src="{{ asset('img/asset/logo-instagram.png') }}" alt="Instagram" class="w-6 h-6 mr-2"></a>
                     <p class="text-xl">@sheviaheights</p>
                 </div>
             </div>

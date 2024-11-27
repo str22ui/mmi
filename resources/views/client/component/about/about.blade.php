@@ -7,7 +7,7 @@
         </div>
         <!-- Teks Kiri -->
         <div class="w-full md:w-2/3">
-            <h1 class="text-2xl font-bold mb-4">Mitramas Multi Investindo</h1>
+            <h1 class="text-2xl font-bold mb-4">PT. Mitramas Multi Investindo</h1>
             <p class="text-gray-700 text-justify">
                 is a greatest team in creating high quality housing estate with excellent result and now we still keep trying to expand our service in construction project. Mitramas Multi Investindo strive for <strong>continuously improvement</strong> of our operations in term of efficiency and effectiveness by concentrating on being able to offer well equipped and trained personnel with the primary focus on the satisfaction objectives of our Clients.
                 <br><br>

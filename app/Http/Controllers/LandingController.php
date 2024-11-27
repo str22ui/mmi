@@ -31,7 +31,7 @@ class LandingController extends Controller
         $monthVisits = Visit::whereMonth('visited_at', $monthDate)->count();
 
         $kotas = Perumahan::select('kota')->distinct()->get();
-
+        $allPerumahan = Perumahan::all();
         // $perumahan = Perumahan::all();
         $perumahan = Perumahan::orderBy('created_at', 'desc')->get();
             // $articles = Article::latest()->filter(request([['category']]))->take(3)->get();
@@ -43,7 +43,8 @@ class LandingController extends Controller
             'todayVisits',
             'monthVisits',
             'perumahan',
-            'kotas'
+            'kotas',
+            'allPerumahan',
         ]));
     }
 
@@ -53,7 +54,14 @@ class LandingController extends Controller
             $kotas = Perumahan::select('kota')->distinct()->get();
             $view->with('kotas', $kotas);
         });
+
+        View::composer('client.layouts.partials.footer', function ($view) {
+            $view->with('perumahan', Perumahan::all());
+        });
     }
+
+
+
 
     // public function getPerumahanByCity($kota)
     // {
@@ -67,11 +75,12 @@ class LandingController extends Controller
         return $this->hasMany(PerumahanImage::class);
     }
 
-    public function about(){
-        $kotas = Perumahan::select('kota')->distinct()->get();
-        return view('client.page.aboutt', compact('kotas'));
-
+    public function perumahanAll()
+    {
+        $perumahan = Perumahan::all();
+        View::share('perumahanAll', $perumahan);
     }
+
 
     // public function project(){
     //     return view('client.page.project');
@@ -95,7 +104,8 @@ class LandingController extends Controller
 
     public function showPerumahan($id)
     {
-        $perumahan = Perumahan::with('images')->findOrFail($id); // Eager load images
+        $perumahan = Perumahan::with('images')->findOrFail($id);
+        $allPerumahan = Perumahan::all(); // Tambahkan semua data Perumahan
 
         $embedUrl = $perumahan->video;
         if (str_contains($perumahan->video, 'youtu.be')) {
@@ -107,32 +117,45 @@ class LandingController extends Controller
 
         return view('client.page.project', [
             'perumahan' => $perumahan,
-            'embedUrl' => $embedUrl, // Kirim embedUrl ke view
+            'embedUrl' => $embedUrl,
+            'allPerumahan' => $allPerumahan, // Kirim semua data Perumahan ke view
         ]);
     }
 
+
     public function showProject($kota)
     {
-        $perumahan = Perumahan::where('kota', $kota)->with('images')->get(); // Ambil perumahan berdasarkan kota
 
+        $perumahan = Perumahan::where('kota', $kota)->with('images')->get(); // Ambil perumahan berdasarkan kota
+        $allPerumahan = Perumahan::all();
         return view('client.component.project.showProject', [
             'perumahan' => $perumahan, // Kirim data perumahan ke view
             'kota' => $kota,
+            'allPerumahan' => $allPerumahan,
         ]);
     }
 
     public function contact(){
+        $allPerumahan = Perumahan::all();
         $kotas = Perumahan::select('kota')->distinct()->get();
-        return view('client.page.contact', compact('kotas'));
+        return view('client.page.contact', compact('kotas','allPerumahan'));
+    }
+
+    public function about(){
+        $allPerumahan = Perumahan::all();
+        $kotas = Perumahan::select('kota')->distinct()->get();
+        return view('client.page.aboutt', compact('kotas','allPerumahan'));
     }
 
     public function form($id)
     {
-        return view('client.page.form', [
-            'perumahan' => Perumahan::findOrFail($id),
-            'agents' => Agent::all(),
-        ]);
+        $allPerumahan = Perumahan::all(); // Ambil semua data Perumahan
+        $selectedPerumahan = Perumahan::findOrFail($id); // Data spesifik berdasarkan ID
+        $agents = Agent::all(); // Semua data agents
+
+        return view('client.page.form', compact('allPerumahan', 'selectedPerumahan', 'agents'));
     }
+
 
     public function storeKonsumen(Request $request, $id)
     {
@@ -169,11 +192,13 @@ class LandingController extends Controller
 
     public function formPenawaran($id)
     {
-        return view('client.page.formPenawaran', [
-            'perumahan' => Perumahan::findOrFail($id),
-            'agents' => Agent::all(),
-            'rumah' => Rumah::all(),
-        ]);
+        $allPerumahan = Perumahan::all();
+        $agents = Agent::all();
+        $rumah = Rumah::where('perumahan_id', $id)->orderBy('no_kavling', 'asc')->get();
+
+        return view('client.page.formPenawaran', compact('allPerumahan', 'agents', 'rumah'))
+             ->with('selectedPerumahan', Perumahan::findOrFail($id));
+
     }
 
     public function storePenawaranKonsumen(Request $request)
@@ -192,33 +217,21 @@ class LandingController extends Controller
             'income' => 'required',
             'dp' => 'required',
             'rumah_id' => 'required',
-            // 'kantor' => 'nullable|unique',
-            // 'kantor' => 'nullable|unique:table_name,column_name',
-
-
-            // 'agents' => Agent::all(),
         ]);
-
-        // Penawaran::create($validatedData);
-        // return redirect('/')->with('success', 'Berhasil Menambahkan Konsumen');
-        // $perumahan = Perumahan::findOrFail($id);
 
         try {
             Penawaran::create($validatedData);
             return redirect()
-                // ->route('dashboard', ['id' => $perumahan->id])
                 ->route('dashboard')
-                ->with('success', 'Data konsumen berhasil disimpan.');
+                ->with('success', 'Anda telah berhasil mengajukan penawaran.');
         } catch (\Exception $e) {
             return redirect()
                 ->back()
                 ->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi.'])
                 ->withInput();
         }
-
-        // Penawaran::create($validatedData);
-        // return redirect()->route('dashboard', ['id' => $perumahan->id]);
     }
+
 
     public function downloadBrosur($id)
     {
@@ -247,8 +260,10 @@ class LandingController extends Controller
 
     public function download($id)
     {
+        $allPerumahan = Perumahan::all();
         return view('client.page.downloadForm', [
             'perumahan' => Perumahan::findOrFail($id),
+            'allPerumahan' => $allPerumahan
         ]);
     }
 

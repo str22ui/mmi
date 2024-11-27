@@ -29,8 +29,8 @@
                             <!-- Text dan Button -->
                             <div class="flex flex-col items-start space-y-2">
                                 <p class="font-semibold text-lg">Or Our Email</p>
-                                <p class="text-lg">mmi@gmail.com</p>
-                                <a href="mailto:your-email@gmail.com" class="bg-white text-black px-6 py-2 rounded-lg font-medium">
+                                <p class="text-lg">sheviaheights.official@gmail.com</p>
+                                <a href="mailto:sheviaheights.official@gmail.com" class="bg-white text-black px-6 py-2 rounded-lg font-medium">
                                     Mail Now
                                 </a>
                             </div>

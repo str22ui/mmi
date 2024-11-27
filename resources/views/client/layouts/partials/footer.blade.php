@@ -9,11 +9,9 @@
             <div>
                 <h3 class="font-bold mb-2">Project</h3>
                 <ul class="text-sm list-none">
-                    <li>Graha Permata Asri</li>
-                    <li>D'Area Permata</li>
-                    <li>Nuansa Asri</li>
-                    <li>Swarna Asri</li>
-                    <li>Swarna Asri 2</li>
+                @foreach ($allPerumahan as $p)
+                    <li>{{ $p->perumahan }}</li>
+                @endforeach
                 </ul>
             </div>
 
@@ -93,6 +91,16 @@
         fadeEffect: {
             crossFade: true,  // Crossfade for smooth transitions
         },
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+        const modal = document.getElementById('success-modal');
+        const closeModal = document.getElementById('close-modal');
+
+        if (modal && closeModal) {
+            closeModal.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+        }
     });
 
 //     var infoInput = document.getElementById('info-input');

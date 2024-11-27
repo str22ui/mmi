@@ -348,15 +348,26 @@ class AdminController extends Controller
 
 
     // ============ RUMAH ================
-    public function indexRumah()
-     {
-         $rumah = Rumah::all();
-         $user = Auth::user();
-         return view('admin.rumah.index', [
-             'rumah' => $rumah,
-             // 'user' => $user,
-         ]);
-     }
+    public function indexRumah(Request $request)
+{
+    // Ambil list semua perumahan untuk dropdown
+    $listPerumahan = Perumahan::all();
+
+    // Query untuk mendapatkan data rumah, default menampilkan semua
+    $query = Rumah::query();
+
+    // Jika filter perumahan_id ada, tambahkan kondisi ke query
+    if ($request->has('perumahan_id') && $request->perumahan_id != '') {
+        $query->where('perumahan_id', $request->perumahan_id);
+    }
+
+    $rumah = $query->get();
+
+    return view('admin.rumah.index', [
+        'rumah' => $rumah,
+        'listPerumahan' => $listPerumahan,
+    ]);
+}
 
      public function createRumah(){
         $perumahan= Perumahan::all();
