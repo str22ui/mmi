@@ -41,7 +41,7 @@
                 <label for="no_hp" class="form-label block mb-2 text-sm font-medium"><i class="fas fa-phone text-gray-400 mr-2"></i>Nomor
                     Telepon</label>
                 <div class="input-with-icon">
-                    <input type="tel" id="phone-input" name="no_hp"
+                    <input type="number" id="phone-input" name="no_hp"
                         class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                         placeholder="Masukkan no hp"  value="{{ old('no_hp') }}" required>
                         @error('no_hp')

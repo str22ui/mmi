@@ -53,17 +53,22 @@
                                class="block text-center text-white py-2 px-4 rounded-lg bg-blue-500 hover:bg-blue-700 transition">
                                 <i class="fas fa-file-download"></i> Download Pricelist
                             </a>
+                            <a href="/formPenawaran/{{ $p->id }}"
+                                 class="block text-center text-white py-2 px-4 rounded-lg bg-green-500 hover:bg-green-700 transition">
+                            <i class="fas fa-handshake"></i> Penawaran
+                        </a>
                         @else
                             <button disabled
                                     class="block text-center w-full text-gray-500 py-2 px-4 rounded-lg bg-gray-300 cursor-not-allowed">
                                 <i class="fas fa-file-download"></i> Download Pricelist
                             </button>
+                             <button disabled
+                                    class="block text-center w-full text-gray-500 py-2 px-4 rounded-lg bg-gray-300 cursor-not-allowed">
+                                <i class="fas fa-handshake"></i> Penawaran
+                            </button>
                         @endif
 
-                        <a href="/formPenawaran/{{ $p->id }}"
-                           class="block text-center text-white py-2 px-4 rounded-lg bg-green-500 hover:bg-green-700 transition">
-                            <i class="fas fa-handshake"></i> Penawaran
-                        </a>
+
 
                         <a href="/showPerumahan/{{$p->id}}"
                            class="block text-center text-blue-600 underline hover:text-blue-800 transition">

@@ -2,11 +2,14 @@
     <div  class="grid grid-cols-1 md:grid-cols-2 gap-8 bg-gray-100 p-8 rounded-lg">
         <!-- Left Side (Text) -->
         <div class="flex flex-col justify-center">
-            <h1 class="text-4xl font-bold text-gray-800">
-                Helps you find your <span class="text-blue-600">Perfect Home</span>
-            </h1>
-            <p class="mt-4 text-lg text-gray-600">
-                Another tag line that can show in banner
+            <p class="text-lg text-gray-600 text-justify mr-10">
+               <span class="text-gray-800 font-bold">Mitramas Multi Investindo</span> adalah badan usaha yang bergerak di bidang Developer dan Kontraktor. Kami memulai pembangunan perumahan sebagai Developer sejak 2007. Kami berfokus pada pembangunan hunian tempat tinggal. Dimulai dari wilayah Depok, dan kini kami juga mengembangkan pembangunan perumahan sampai ke wilayah diluar Depok seperti JaBoTaBek. Sesuai Visi kami sebagai progressive and innovative property company, kami berkomitmen untuk menambah jumlah dan memperluas perumahan yang kami kembangkan.
+            </p>
+            <p class="mt-4 text-lg text-gray-600 text-justify mr-10">
+                Diawal Kami telah mulai membangun dengan lahan yang kami miliki sendiri, dengan team kontraktor yang juga kami miliki sendiri. Atas dasar pengalaman kami membangun, dan untuk mendukung percepatan ekspansi kami, saat ini kami membuka relasi kepada Land Owner dan Investor untuk bekerjasama dalam pembangunan perumahan kami selanjutnya. Kami siap bekerjasama secara professional dan kami siap berdiskusi untuk membahasnya
+            </p>
+            <p class="mt-4 text-lg text-gray-600 text-justify mr-10">
+                Beberapa Project Perumahan kami yang masih dan akan launching juga kami siapkan dengan kualitas terbaik untuk kepuasan konsumen kami. Pilih Perumahan yang anda inginkan dan hubungi kontak kami yang ada di website ini.
             </p>
         </div>
 

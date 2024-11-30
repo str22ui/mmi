@@ -12,9 +12,9 @@
                             <img src="{{ asset('img/asset/logo-wa.png') }}" alt="WhatsApp Icon" class="w-20 h-20">
                             <!-- Text dan Button -->
                             <div class="flex flex-col items-start space-y-2">
-                                <p class="font-semibold text-lg">Contact Us Via WhatsApp</p>
-                                <p class="text-lg">+62 818 0734 0561</p>
-                                <a href="https://wa.me/6281807340561" class="bg-white text-black px-6 py-2 rounded-lg font-medium">
+                                <p class="font-semibold text-lg">Hubungi Kami Via WhatsApp</p>
+                                <p class="text-lg">+62 878 5445 4888</p>
+                                <a href="https://wa.me/6287854454888" class="bg-white text-black px-6 py-2 rounded-lg font-medium">
                                     Chat Now
                                 </a>
                             </div>

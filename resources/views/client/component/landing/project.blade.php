@@ -52,19 +52,26 @@
                                     class="text-black text-center justify-center items-center py-2 px-4 rounded-lg border-2 border-blue-500 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300">
                                         <i class="fas fa-file-download" style="color:blue"></i> Download Pricelist
                                     </a>
+
+                                    <a href="/formPenawaran/{{ $p->id }}"
+                                        class="text-white text-center justify-center items-center py-2 px-4 rounded-lg bg-blue-700 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                                         <i class="fas fa-handshake"></i> Penawaran
+                                     </a>
                                 @else
                                     <!-- Disabled Button -->
                                     <button disabled
                                     class="text-white py-2 px-4 rounded-lg bg-gray-400 cursor-not-allowed">
                                         <i class="fas fa-file-download"></i> Download Pricelist
                                     </button>
+
+                                    <button disabled
+                                    class="text-white py-2 px-4 rounded-lg bg-gray-400 cursor-not-allowed">
+                                        <i class="fas fa-handshake"></i>  Penawaran
+                                    </button>
                                 @endif
 
                                 <!-- Button Penawaran -->
-                                <a href="/formPenawaran/{{ $p->id }}"
-                                   class="text-white text-center justify-center items-center py-2 px-4 rounded-lg bg-blue-700 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300">
-                                    <i class="fas fa-handshake"></i> Penawaran
-                                </a>
+
 
                                 <!-- Button See More -->
                                 <a href="/showPerumahan/{{$p->id}}"

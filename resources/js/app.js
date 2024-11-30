@@ -13,11 +13,11 @@ function navOpen() {
     // nav.classList.add = "block";
 }
 
-document.getElementById("btnNav").addEventListener("click", () => {
-    const nav = document.querySelector("#nav");
-    // nav.classList.remove("hidden");
-    nav.classList.toggle("nav");
+document.getElementById('btnNav').addEventListener('click', function () {
+    const nav = document.getElementById('nav');
+    nav.classList.toggle('hidden'); // Menyembunyikan atau menampilkan elemen navbar
 });
+
 
 let navBot = document.getElementById("nav-bottom");
 const path = location.pathname;
