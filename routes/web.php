@@ -69,6 +69,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/perumahan/{id}/', [AdminController::class, 'editPerumahan'])->name('admin.editPerumahan');
         Route::put('/perumahan/update/{id}', [AdminController::class, 'updatePerumahan'])->name('admin.updatePerumahan');
         Route::delete('/deletePerumahan', [AdminController::class, 'destroyPerumahan'])->name('admin.deletePerumahan');
+        Route::post('/admin/perumahan/remove-image', [PerumahanController::class, 'removeImage'])->name('perumahan.removeImage');
+
+        Route::delete('/deletePerumahanImage', [AdminController::class, 'destroyImage'])->name('admin.deleteImage');
 
         Route::get('/rumah', [AdminController::class, 'indexRumah'])->name('admin.rumah');
         Route::get('/showRumah', [AdminController::class, 'showRumah'])->name('admin.showRumah');
@@ -97,8 +100,10 @@ Route::post('/loginUser', [AuthController::class, 'authenticate']);
 Route::middleware('log.visits')->group(function(){
     Route::get('/', [LandingController::class, 'index'])->name('dashboard');
     Route::get('/perumahan/{kota}', [LandingController::class, 'getPerumahanByKota']);
+    Route::get('/perumahan/filter', [PerumahanController::class, 'filterPerumahan']);
+
     Route::get('/about', [LandingController::class, 'about'])->name('about');
-    // Route::get('/project', [LandingController::class, 'project'])->name('project');
+
     Route::get('/contact', [LandingController::class, 'contact'])->name('contact');
     Route::get('/showProject/{kota}', [LandingController::class, 'showProject'])->name('showProject');
     Route::get('/form/{id}', [LandingController::class, 'form'])->name('landingpage.form');

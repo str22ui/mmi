@@ -34,33 +34,33 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
 <script>
-    var swiper = new Swiper('.swiper-container', {
-        slidesPerView: 1,   // Menampilkan satu card per view
-        spaceBetween: 10,   // Jarak antara card
-        loop: true,         // Membuat slider loop
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-        breakpoints: {
-            640: {
-                slidesPerView: 1,
-                spaceBetween: 10,
-            },
-            768: {
-                slidesPerView: 2,
-                spaceBetween: 20,
-            },
-            1024: {
-                slidesPerView: 3,
-                spaceBetween: 30,
-            },
-        },
-    });
+    // var swiper = new Swiper('.swiper-container', {
+    //     slidesPerView: 1,   // Menampilkan satu card per view
+    //     spaceBetween: 10,   // Jarak antara card
+    //     loop: true,         // Membuat slider loop
+    //     pagination: {
+    //         el: '.swiper-pagination',
+    //         clickable: true,
+    //     },
+    //     navigation: {
+    //         nextEl: '.swiper-button-next',
+    //         prevEl: '.swiper-button-prev',
+    //     },
+    //     breakpoints: {
+    //         640: {
+    //             slidesPerView: 1,
+    //             spaceBetween: 10,
+    //         },
+    //         768: {
+    //             slidesPerView: 2,
+    //             spaceBetween: 20,
+    //         },
+    //         1024: {
+    //             slidesPerView: 3,
+    //             spaceBetween: 30,
+    //         },
+    //     },
+    // });
 
     var cardSwiper = new Swiper('.card-slider-container', {
     loop: true, // Membuat slider berulang
@@ -184,4 +184,24 @@
     document.getElementById('luas_bangunan').value = lb;
     document.getElementById('posisi').value = posisi;
 });
+
+    document.querySelectorAll('.filter-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const status = button.getAttribute('data-status'); // Ambil status dari tombol
+            const slides = document.querySelectorAll('.swiper-slide'); // Semua slide
+
+            slides.forEach(slide => {
+                if (slide.getAttribute('data-status') === status || status === 'All') {
+                    slide.style.display = ''; // Tampilkan slide
+                } else {
+                    slide.style.display = 'none'; // Sembunyikan slide
+                }
+            });
+
+            // Update Swiper agar tampilan ter-refresh
+            swiper.update();
+        });
+    });
+
+
 </script>

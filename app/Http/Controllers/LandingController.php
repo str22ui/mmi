@@ -32,11 +32,8 @@ class LandingController extends Controller
 
         $kotas = Perumahan::select('kota')->distinct()->get();
         $allPerumahan = Perumahan::all();
-        // $perumahan = Perumahan::all();
         $perumahan = Perumahan::orderBy('created_at', 'desc')->get();
-            // $articles = Article::latest()->filter(request([['category']]))->take(3)->get();
-            // $student = Employee::first();
-            // $ann = Announcement::first();
+        $perumahanStat = Perumahan::where('status', 'Available')->get();
 
         return view('client.page.index', compact([
             'totalVisits',
@@ -45,20 +42,39 @@ class LandingController extends Controller
             'perumahan',
             'kotas',
             'allPerumahan',
+            'perumahanStat'
         ]));
-    }
+        }
+        public function filterPerumahan(Request $request)
+        {
+            $status = $request->input('status');
+            $perumahan = Perumahan::where('status', $status)->get();
+
+            return response()->json([
+                'perumahan' => $perumahan
+            ]);
+        }
+
 
     public function boot()
     {
         View::composer('client.component.NavigationComponent.ProjectDropdown', function ($view) {
+            \Log::info('View composer for ProjectDropdown executed');
             $kotas = Perumahan::select('kota')->distinct()->get();
             $view->with('kotas', $kotas);
         });
+
 
         View::composer('client.layouts.partials.footer', function ($view) {
             $view->with('perumahan', Perumahan::all());
         });
     }
+    public function showPage()
+    {
+        $kotas = Perumahan::select('kota')->distinct()->get();
+        return view('halaman.anda', compact('kotas'));
+    }
+
 
 
 
@@ -101,12 +117,12 @@ class LandingController extends Controller
     //         'perumahan' => $perumahan,
     //     ]);
     // }
-
     public function showPerumahan($id)
     {
+        // Mengambil data Perumahan beserta gambar
         $perumahan = Perumahan::with('images')->findOrFail($id);
-        $allPerumahan = Perumahan::all(); // Tambahkan semua data Perumahan
-
+        $allPerumahan = Perumahan::all();
+        // Logika video jika ada
         $embedUrl = $perumahan->video;
         if (str_contains($perumahan->video, 'youtu.be')) {
             $videoId = last(explode('/', parse_url($perumahan->video, PHP_URL_PATH)));
@@ -118,7 +134,7 @@ class LandingController extends Controller
         return view('client.page.project', [
             'perumahan' => $perumahan,
             'embedUrl' => $embedUrl,
-            'allPerumahan' => $allPerumahan, // Kirim semua data Perumahan ke view
+            'allPerumahan' => $allPerumahan,
         ]);
     }
 

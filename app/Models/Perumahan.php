@@ -26,8 +26,6 @@ class Perumahan extends Model
         'fasilitas',
         'maps',
         'deskripsi',
-        // 'posisi',
-        // 'no_kavling',
         'video'
     ];
 

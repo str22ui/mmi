@@ -206,13 +206,50 @@ class AdminController extends Controller
         $perumahan->keunggulan = json_decode($perumahan->keunggulan, true);
         $perumahan->fasilitas = json_decode($perumahan->fasilitas, true);
 
-        $images = PerumahanImage::where('perumahan_id', $id)->pluck('image_path'); // Ambil gambar dari tabel terkait
+        // $images = PerumahanImage::where('perumahan_id', $id)->pluck('image_path');
+        // $images = PerumahanImage::where('perumahan_id', $id)->pluck('image_path')->toArray();
+        $images = PerumahanImage::where('perumahan_id', $id)->get();
+        // $images = PerumahanImage::where('perumahan_id', $id)->pluck('image_path')->toArray();
+
 
         return view('admin.perumahan.editPerumahan', [
             'perumahan' => $perumahan,
             'images' => $images, // Kirim gambar ke view
         ]);
     }
+
+    public function removeImage(Request $request)
+    {
+        try {
+            Log::info('Request diterima:', $request->all());
+            $imagePath = $request->input('image');
+
+            // Hapus dari database
+            $deleted = PerumahanImage::where('image_path', $imagePath)->delete();
+            Log::info('Hasil penghapusan dari database:', ['deleted' => $deleted]);
+
+            if (!$deleted) {
+                return response()->json(['success' => false, 'message' => 'Gambar tidak ditemukan di database']);
+            }
+
+            // Hapus file fisik
+            $filePath = public_path('storage/' . $imagePath);
+            if (file_exists($filePath)) {
+                unlink($filePath);
+                Log::info('File berhasil dihapus:', [$filePath]);
+            } else {
+                Log::warning('File tidak ditemukan:', [$filePath]);
+            }
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            Log::error('Terjadi kesalahan:', [$e->getMessage()]);
+            return response()->json(['success' => false, 'message' => 'Terjadi kesalahan server'], 500);
+        }
+    }
+
+
+
 
 
     public function updatePerumahan(Request $request, $id)
@@ -273,20 +310,20 @@ class AdminController extends Controller
             }
         }
 
-        // Hapus gambar lama jika ada
-        if ($request->has('remove_images')) {
-            foreach ($request->remove_images as $imageId) {
-                $image = PerumahanImage::find($imageId);
-                if ($image) {
-                    // Hapus file dari storage
-                    if (Storage::exists('public/' . $image->image_path)) {
-                        Storage::delete('public/' . $image->image_path);
-                    }
-                    // Hapus dari database
-                    $image->delete();
-                }
-            }
-        }
+        // // Hapus gambar lama jika ada
+        // if ($request->has('remove_images')) {
+        //     foreach ($request->remove_images as $imageId) {
+        //         $image = PerumahanImage::find($imageId);
+        //         if ($image) {
+        //             // Hapus file dari storage
+        //             if (Storage::exists('public/' . $image->image_path)) {
+        //                 Storage::delete('public/' . $image->image_path);
+        //             }
+        //             // Hapus dari database
+        //             $image->delete();
+        //         }
+        //     }
+        // }
 
         // Update brosur
         if ($request->hasFile('brosur')) {
@@ -310,24 +347,27 @@ class AdminController extends Controller
         return redirect()->route('admin.perumahan')->with('success', 'Data perumahan berhasil diperbarui.');
     }
 
-
-    public function deletePerumahan($id)
+    public function destroyImage(Request $request)
     {
-        // Find the unit by id
-        $perumahan = Perumahan::find($id);
+        // Debugging
+        \Log::info($request->all());
+        \Log::info('Request ID: ' . $request->image_id);
+        // Temukan gambar berdasarkan ID
+        $image = PerumahanImage::findOrFail($request->image_id);
 
-        // Check if the unit exists
-        if (!$perumahan) {
-            // Handle the case where the unit with the given ID does not exist
-            return redirect()->back()->with('error', 'Unit not found.');
+        // Hapus file fisik
+        $filePath = storage_path('app/public/' . $image->image_path);
+        if (file_exists($filePath)) {
+            unlink($filePath);
         }
 
-        // Delete the unit
-        $perumahan->delete();
+        // Hapus dari database
+        $image->delete();
 
-        // Redirect back or to any other page
-        return redirect('/perumahan')->with('success', 'Perumahan deleted successfully.');
-    }
+        return redirect()->back()->with('success', 'Gambar berhasil dihapus.');
+        }
+
+
     public function destroyPerumahan(Request $request)
     {
         // Debug untuk melihat data yang diterima

@@ -19,42 +19,43 @@
                     {{ $perumahan->status === 'Available' ? 'selected' : '' }}>Available</option>
                 <option value="Sold Out" {{ $perumahan->status === 'Sold Out' ? 'selected' : '' }}>
                     Sold Out</option>
+                <option value="Soon" {{ $perumahan->status === 'Soon' ? 'selected' : '' }}>
+                    Soon</option>
             </select>
 
-            {{-- <div class="mb-3">
-                <label for="img" class="form-label">Foto</label>
-                <input type="file" class="form-control" id="img" name="img">
-                @if ($perumahan->img)
-                    <input type="hidden" name="old_foto" value="{{ $perumahan->img }}">
-                    <img src="{{ asset($perumahan->img) }}" alt="Current Foto"
-                        style="max-width: 200px; margin-top: 5px;">
-                @endif
-            </div> --}}
             <div class="mb-3">
                 <label for="img" class="form-label">Gambar Perumahan (.jpg, .png, .jpeg)</label>
                 <input type="file" class="form-control" id="img" name="images[]" multiple accept="image/*">
 
-                @if($images && count($images) > 0)
-                    <div class="mt-3">
-                        <label>Gambar Lama:</label>
-                        <div class="d-flex flex-wrap gap-2">
-                            @foreach($images as $image)
-                                <div>
-                                    <img src="{{ asset($image) }}" alt="Foto Lama" style="max-width: 150px; height: auto;">
-                                    <input type="hidden" name="old_images[]" value="{{ $image }}">
-                                    <button type="button" class="btn btn-danger btn-sm mt-1" onclick="removeImage(this)">Hapus</button>
-                                </div>
-                            @endforeach
-                        </div>
+                @if(!empty($images) && count($images) > 0)
+                <div class="mt-3">
+                    <label>Gambar Lama:</label>
+                    <div class="d-flex flex-wrap gap-2">
+                        @foreach($images as $image)
+                        <div>
+                    <img src="{{ asset('storage/' . $image->image_path) }}" alt="Foto Lama" style="max-width: 150px; height: auto;">
+                    <form
+                    id="delete-image-form-{{ $image->id }}"
+                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus data?')"
+                    class="d-inline"
+                    action="{{ route('admin.deleteImage') }}"
+                    method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <input type="hidden" name="image_id" value="{{ $image->id }}">
+                    <button type="submit" class="btn btn-danger btn-sm mt-1">Hapus</button>
+                </form>
+
+                </div>
+            @endforeach
+
+
                     </div>
-                @endif
+                </div>
+            @endif
             </div>
 
-            <script>
-                function removeImage(button) {
-                    button.parentElement.remove(); // Menghapus elemen gambar lama dari tampilan
-                }
-            </script>
+
 
 
             <div class="mb-3">
@@ -199,6 +200,7 @@
                 @endif
             </div>
             <button type="submit" class="btn btn-primary">Update</button>
+
             <a class="btn btn-danger" href="{{ route('admin.perumahan') }}">Back</a>
         </form>
 
@@ -215,6 +217,14 @@
 
 {{-- <script src="{{ asset('ckeditor/ckeditor.js') }}"></script> --}}
     <script>
+        document.querySelectorAll('.btn-delete-image').forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                const formId = this.dataset.formId;
+                document.getElementById(formId).submit();
+            });
+        });
+
       const name = document.querySelector('#name');
         const slug = document.querySelector('#slug');
 

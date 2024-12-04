@@ -267,3 +267,224 @@ h1 {
         color: #90775d;
     }
 }
+
+/* ============ Perumahan  */
+.carousel-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.carousel {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+    gap: 1rem;
+}
+
+.card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Let the cards take available space */
+    max-width: 320px; /* Control max width */
+    flex-shrink: 0; /* Prevent shrinking */
+
+}
+
+.card-img {
+    width: 100%;
+    height: auto; /* Ensure image height is adjusted automatically */
+    border-radius: 8px;
+}
+
+.card-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.card-location {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.kota {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.perumahan {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.card-price {
+    text-align: right;
+}
+
+.start-from {
+    font-size: 0.9rem;
+    color: #777;
+}
+
+.price {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.keunggulan {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+    text-align: left;
+    color: #555;
+}
+
+.keunggulan li {
+    margin-bottom: 0.3rem;
+}
+
+.card-actions {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.btn-download, .btn-penawaran, .btn-disabled, .btn-see-more {
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.btn-download {
+    border: 2px solid #007bff;
+    color: #007bff;
+    background-color: white;
+}
+
+.btn-download:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-penawaran {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-penawaran:hover {
+    background-color: #0056b3;
+}
+
+.btn-disabled {
+    background-color: #e0e0e0;
+    color: #888;
+    cursor: not-allowed;
+}
+
+.btn-see-more {
+    border-bottom: 2px solid #007bff;
+    color: black;
+}
+
+.btn-see-more:hover {
+    background-color: #f1f1f1;
+}
+
+.carousel-btn {
+    background-color: rgba(83, 94, 245, 0.352);
+    color: white;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    border-radius: 50%;
+}
+
+.left-btn {
+    left: 10px;
+}
+
+.right-btn {
+    right: 10px;
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+    .carousel {
+        gap: 2rem; /* Adjust gap for larger screens */
+    }
+
+    .card {
+        max-width: 360px; /* Adjust card width for larger screens */
+    }
+}
+
+@media (min-width: 1024px) {
+    .carousel {
+        gap: 3rem;
+    }
+
+    .card {
+        max-width: 400px; /* Larger screen */
+    }
+}
+
+
+
+/* ==== show perumahan */
+.image-galery {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    max-width: 1600px; /* Adjust the max width to fit your design */
+    max-height: 1200px;
+    margin: 0 auto;
+}
+
+.image {
+    display: flex;
+
+    transition: transform 0.5s ease-in-out;
+}
+
+.card {
+    flex: 0 0 100%; /* Make each image take up 100% of the width of the container */
+    width: 100%;    /* Ensure the card takes up the full width */
+
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(83, 94, 245, 0.352);
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.left-btn {
+    left: 10px;
+}
+
+.right-btn {
+    right: 10px;
+}
+
