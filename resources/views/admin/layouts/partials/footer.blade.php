@@ -29,7 +29,7 @@
 <script src="{{ asset('vendors/select2/select2.min.js') }}"></script>
 <script src="{{ asset('vendors/flatpickr/flatpickr.js') }}"></script>
 <script src="{{ asset('vendors/flatpickr/id.js') }}"></script>
-
+<script src="/ckeditor/ckeditor.js"></script>
 <script>
 	$(function () {
 		$(".select2").select2();
@@ -190,6 +190,11 @@ fetch('/admin/perumahan/remove-image', {
         }
     })
     .catch(error => console.error('Error:', error));
+
+
+    function removeInput(button) {
+    button.parentElement.remove(); // Menghapus elemen induk (input + tombol)
+}
 
 
 </script>

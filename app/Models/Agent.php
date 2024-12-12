@@ -13,7 +13,8 @@ class Agent extends Model
         'kantor',
         'tipe',
         'no_hp',
-        'alamat'
+        'alamat',
+        'perumahan_id'
     ];
 
     public function konsumen()
@@ -24,6 +25,11 @@ class Agent extends Model
     public function penawaran()
     {
         return $this->hasMany(Penawaran::class, 'agent_id');
+    }
+
+    public function perumahan()
+    {
+        return $this->belongsTo(Perumahan::class);
     }
 
 

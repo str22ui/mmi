@@ -15,10 +15,13 @@
                     <img class="w-full h-56 object-cover" src="{{ asset('storage/' . $p->images->first()->image_path) }}" alt="Perumahan {{ $p->perumahan }}">
                     @if($p->status === 'Available')
                         <span class="absolute top-2 left-2 bg-green-500 text-white text-sm font-semibold px-3 py-1 rounded-full">Available</span>
-                    @else
+                    @elseif($p->status === 'Sold Out')
                         <span class="absolute top-2 left-2 bg-red-500 text-white text-sm font-semibold px-3 py-1 rounded-full">Sold Out</span>
+                    @elseif($p->status === 'Soon')
+                        <span class="absolute top-2 left-2 bg-blue-500 text-white text-sm font-semibold px-3 py-1 rounded-full">Soon</span>
                     @endif
                 </div>
+                
 
                 <!-- Content Section -->
                 <div class="p-5">

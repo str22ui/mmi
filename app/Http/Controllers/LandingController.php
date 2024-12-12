@@ -21,30 +21,76 @@ use Illuminate\Support\Facades\View;
 
 class LandingController extends Controller
 {
-    public function index()
-    {
-        $todayDate = Carbon::now()->format('Y-m-d');
-        $monthDate = Carbon::now()->format('m');
+    // public function index()
+    // {
+    //     $todayDate = Carbon::now()->format('Y-m-d');
+    //     $monthDate = Carbon::now()->format('m');
 
-        $totalVisits = Visit::count();
-        $todayVisits = Visit::whereDate('visited_at', $todayDate)->count();
-        $monthVisits = Visit::whereMonth('visited_at', $monthDate)->count();
+    //     $totalVisits = Visit::count();
+    //     $todayVisits = Visit::whereDate('visited_at', $todayDate)->count();
+    //     $monthVisits = Visit::whereMonth('visited_at', $monthDate)->count();
 
-        $kotas = Perumahan::select('kota')->distinct()->get();
-        $allPerumahan = Perumahan::all();
-        $perumahan = Perumahan::orderBy('created_at', 'desc')->get();
+    //     $kotas = Perumahan::whereIn('id', function ($query) {
+    //         $query->selectRaw('MAX(id)')
+    //             ->from('perumahan')
+    //             ->groupBy('kota');
+    //     })->orderBy('created_at', 'desc')->get();
+
+    //     $allPerumahan = Perumahan::orderBy('created_at', 'desc')->get();
+    //     $perumahan = Perumahan::orderBy('created_at', 'desc')->get();
+    //     $perumahanStat = Perumahan::where('status', 'Available')->get();
+
+    //     return view('client.page.index', compact([
+    //         'totalVisits',
+    //         'todayVisits',
+    //         'monthVisits',
+    //         'perumahan',
+    //         'kotas',
+    //         'allPerumahan',
+    //         'perumahanStat'
+    //     ]));
+    //     }
+    public function index(Request $request)
+{
+    $status = $request->query('status', 'all'); // Default: all
+    $todayDate = Carbon::now()->format('Y-m-d');
+    $monthDate = Carbon::now()->format('m');
+
+    $totalVisits = Visit::count();
+    $todayVisits = Visit::whereDate('visited_at', $todayDate)->count();
+    $monthVisits = Visit::whereMonth('visited_at', $monthDate)->count();
+
+        $allPerumahan = Perumahan::orderBy('created_at', 'desc')->get();
+
         $perumahanStat = Perumahan::where('status', 'Available')->get();
 
-        return view('client.page.index', compact([
-            'totalVisits',
-            'todayVisits',
-            'monthVisits',
-            'perumahan',
-            'kotas',
-            'allPerumahan',
-            'perumahanStat'
-        ]));
-        }
+    $kotas = Perumahan::whereIn('id', function ($query) {
+        $query->selectRaw('MAX(id)')
+            ->from('perumahan')
+            ->groupBy('kota');
+    })->orderBy('created_at', 'desc')->get();
+
+    $query = Perumahan::orderBy('created_at', 'desc');
+
+    if ($status !== 'all') {
+        $query->where('status', $status);
+    }
+
+    $perumahan = $query->get();
+
+    return view('client.page.index', compact([
+        'totalVisits',
+        'todayVisits',
+        'monthVisits',
+        'perumahan',
+        'kotas',
+        'allPerumahan',
+        'perumahanStat'
+    ]));
+}
+
+
+
         public function filterPerumahan(Request $request)
         {
             $status = $request->input('status');
@@ -121,7 +167,8 @@ class LandingController extends Controller
     {
         // Mengambil data Perumahan beserta gambar
         $perumahan = Perumahan::with('images')->findOrFail($id);
-        $allPerumahan = Perumahan::all();
+        $allPerumahan = Perumahan::orderBy('created_at', 'desc')->get();
+        $kotas = Perumahan::select('kota')->distinct()->get();
         // Logika video jika ada
         $embedUrl = $perumahan->video;
         if (str_contains($perumahan->video, 'youtu.be')) {
@@ -135,24 +182,32 @@ class LandingController extends Controller
             'perumahan' => $perumahan,
             'embedUrl' => $embedUrl,
             'allPerumahan' => $allPerumahan,
+            'kotas' => $kotas,
         ]);
     }
 
 
     public function showProject($kota)
     {
+        $perumahan = Perumahan::where('kota', $kota)
+        ->with('images')
+        ->orderBy('created_at', 'desc')
+        ->get(); // Ambil perumahan berdasarkan kota dan urutkan dari yang terbaru
 
-        $perumahan = Perumahan::where('kota', $kota)->with('images')->get(); // Ambil perumahan berdasarkan kota
-        $allPerumahan = Perumahan::all();
+        $allPerumahan = Perumahan::orderBy('created_at', 'desc')->get(); // Urutkan semua perumahan dari yang terbaru
+
+        $kotas = Perumahan::select('kota')->distinct()->get();
+
         return view('client.component.project.showProject', [
             'perumahan' => $perumahan, // Kirim data perumahan ke view
             'kota' => $kota,
             'allPerumahan' => $allPerumahan,
+            'kotas' => $kotas,
         ]);
     }
 
     public function contact(){
-        $allPerumahan = Perumahan::all();
+        $allPerumahan = Perumahan::orderBy('created_at', 'desc')->get();
         $kotas = Perumahan::select('kota')->distinct()->get();
         return view('client.page.contact', compact('kotas','allPerumahan'));
     }
@@ -209,7 +264,7 @@ class LandingController extends Controller
     public function formPenawaran($id)
     {
         $allPerumahan = Perumahan::all();
-        $agents = Agent::all();
+        $agents = Agent::where('perumahan_id', $id)->get();
         $rumah = Rumah::where('perumahan_id', $id)->orderBy('no_kavling', 'asc')->get();
 
         return view('client.page.formPenawaran', compact('allPerumahan', 'agents', 'rumah'))

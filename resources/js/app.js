@@ -12,10 +12,35 @@ function navOpen() {
     // nav.classList.remove = "hidden";
     // nav.classList.add = "block";
 }
+// document.addEventListener('DOMContentLoaded', () => {
+//     const btnNav = document.getElementById('btnNav');
+//     const nav = document.getElementById('nav');
 
-document.getElementById('btnNav').addEventListener('click', function () {
-    const nav = document.getElementById('nav');
-    nav.classList.toggle('hidden'); // Menyembunyikan atau menampilkan elemen navbar
+//     // Handle toggle for the mobile menu
+//     btnNav.addEventListener('click', () => {
+//         nav.classList.toggle('hidden');
+//         nav.classList.toggle('flex'); // Ensure the flex class is applied when visible
+//     });
+// });
+document.addEventListener('DOMContentLoaded', () => {
+    const dropdownToggle = document.getElementById('dropdownToggle');
+    const dropdownContent = document.getElementById('dropdownContent');
+
+    // Toggle dropdown visibility on button click
+    dropdownToggle.addEventListener('click', () => {
+        const isHidden = dropdownContent.classList.contains('hidden');
+
+        // Toggle dropdown visibility
+        if (isHidden) {
+            dropdownContent.classList.remove('hidden');
+            dropdownContent.classList.add('flex');
+            dropdownToggle.querySelector('svg').classList.add('rotate-180'); // Rotate arrow up
+        } else {
+            dropdownContent.classList.add('hidden');
+            dropdownContent.classList.remove('flex');
+            dropdownToggle.querySelector('svg').classList.remove('rotate-180'); // Rotate arrow down
+        }
+    });
 });
 
 
@@ -119,30 +144,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ==== show perumahan
+
+    // ==== show perumahan2
     document.addEventListener("DOMContentLoaded", function () {
-        const carousel = document.querySelector('.image');
-        const leftBtn = document.querySelector('.left-btn');
-        const rightBtn = document.querySelector('.right-btn');
-        const cards = document.querySelectorAll('.card');
-        let currentScroll = 0;
+        const slider = document.getElementById("slider");
+        const slides = document.querySelectorAll(".slide");
+        const prevBtn = document.getElementById("prevBtn");
+        const nextBtn = document.getElementById("nextBtn");
 
-        // Calculate card width including margin
-        const cardWidth = cards[0].offsetWidth + 16; // Replace 16 with your actual gap
+        let currentIndex = 0;
 
-        // Calculate max scroll
-        const maxScroll = (cards.length * cardWidth) - carousel.offsetWidth;
+        function updateSlider() {
+          const offset = -currentIndex * 100; // Calculate offset
+          slider.style.transform = `translateX(${offset}%)`;
+        }
 
-        leftBtn.addEventListener('click', function () {
-            currentScroll = Math.max(0, currentScroll - cardWidth);
-            carousel.style.transform = `translateX(-${currentScroll}px)`;
+        prevBtn.addEventListener("click", () => {
+          currentIndex = (currentIndex > 0) ? currentIndex - 1 : slides.length - 1;
+          updateSlider();
         });
 
-        rightBtn.addEventListener('click', function () {
-            currentScroll = Math.min(maxScroll, currentScroll + cardWidth);
-            carousel.style.transform = `translateX(-${currentScroll}px)`;
+        nextBtn.addEventListener("click", () => {
+          currentIndex = (currentIndex < slides.length - 1) ? currentIndex + 1 : 0;
+          updateSlider();
         });
-    });
+      });
+
 
 
 

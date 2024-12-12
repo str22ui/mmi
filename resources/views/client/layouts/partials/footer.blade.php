@@ -1,5 +1,5 @@
-<footer>
-    <div class="bg-primary text-white py-6 mt-8">
+<footer >
+    <div class="bg-primary text-white py-6 px-5 mt-8">
         <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left">
             <div>
                 <h3 class="font-bold mb-2">PT. Mitramas Multi Investindo</h3>
@@ -61,6 +61,30 @@
     //         },
     //     },
     // });
+//     function filterStatus() {
+//     const status = document.getElementById('filter-status').value;
+//     window.location.href = `?status=${status}`;
+// }
+    // Dapatkan parameter 'status' dari URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const activeStatus = urlParams.get('status') || 'all'; // Default 'all' jika tidak ada parameter
+
+    // Tandai tombol aktif berdasarkan status
+    document.querySelectorAll('.filter-btn').forEach(button => {
+        const status = button.getAttribute('data-status');
+        if (status === activeStatus) {
+            button.classList.add('bg-primary', 'text-white');
+        } else {
+            button.classList.remove('bg-primary', 'text-white');
+        }
+
+        // Event listener untuk mengubah status filter
+        button.addEventListener('click', () => {
+            window.location.href = `?status=${status}`;
+        });
+    });
+
+
 
     var cardSwiper = new Swiper('.card-slider-container', {
     loop: true, // Membuat slider berulang
@@ -178,11 +202,13 @@
     var lt = selectedOption.getAttribute('data-lt');
     var lb = selectedOption.getAttribute('data-lb');
     var posisi = selectedOption.getAttribute('data-posisi');
+    var harga = selectedOption.getAttribute('data-harga');
 
 
     document.getElementById('luas_tanah').value = lt;
     document.getElementById('luas_bangunan').value = lb;
     document.getElementById('posisi').value = posisi;
+    document.getElementById('harga').value = harga;
 });
 
     document.querySelectorAll('.filter-btn').forEach(button => {

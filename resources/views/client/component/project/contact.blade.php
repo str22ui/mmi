@@ -1,4 +1,4 @@
-<div class="grid grid-cols-1 lg:grid-cols-2 p-6 bg-white mt-12 gap-8">
+<div class="grid grid-cols-1 lg:grid-cols-2 p-6 bg-gray-100 mt-12 gap-8">
     <!-- Informasi Kontak -->
     <div class="flex items-center justify-center text-center mb-8 mt-12 md:mt-0">
         <div>

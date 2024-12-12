@@ -30,6 +30,7 @@
                     <th class="col-md-2 ">Payment</th>
                     <th class="col-md-2">Income</th>
                     <th class="col-md-2">DP</th>
+                    <th class="col-md-2">Tanggal</th>
                     <th class="col-md-2">Action</th>
 
                 </tr>
@@ -47,6 +48,8 @@
                         <td>{{ $p->payment }}</td>
                         <td>{{ $p->income }}</td>
                         <td>{{ $p->dp }}</td>
+                        <td>{{ $p->created_at->format('d/m/y') }}</td>
+
 
 
                         <td>

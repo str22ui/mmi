@@ -1,13 +1,23 @@
 <div data-aos="fade-up" data-aos-duration="1000" class="container mx-auto px-4 py-8">
     <h2 class="text-center text-2xl font-bold mb-6">Our Projects</h2>
     <div class="mx-auto text-center mb-12">
-        <button data-status="Soon" class="filter-btn border-solid border-2 border-primary text-black bg-white rounded-xl px-8 py-1 hover:bg-primary hover:text-white">Soon</button>
-        <button data-status="Available" class="filter-btn border-solid border-2 border-primary text-black bg-white rounded-xl px-6 py-1 hover:bg-primary hover:text-white">Available</button>
-        <button data-status="Sold" class="filter-btn border-solid border-2 border-primary text-black bg-white rounded-xl px-8 py-1 hover:bg-primary hover:text-white">Sold</button>
-    </div>
+        <div class="flex flex-wrap justify-center gap-4">
+          <button data-status="all" class="filter-btn border-solid border-2 border-primary text-black bg-white rounded-xl px-8 py-1 hover:bg-primary hover:text-white active">All</button>
+          <button data-status="Soon" class="filter-btn border-solid border-2 border-primary text-black bg-white rounded-xl px-8 py-1 hover:bg-primary hover:text-white">Soon</button>
+          <button data-status="Available" class="filter-btn border-solid border-2 border-primary text-black bg-white rounded-xl px-6 py-1 hover:bg-primary hover:text-white">Available</button>
+          <button data-status="Sold Out" class="filter-btn border-solid border-2 border-primary text-black bg-white rounded-xl px-8 py-1 hover:bg-primary hover:text-white">Sold</button>
+        </div>
+      </div>
+
+
 
     <div class="carousel-container">
-        <button class="carousel-btn left-btn"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+        <button class="carousel-btn left-btn">   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg></button>
+        @if ($perumahan->isEmpty())
+            <p class="text-center text-gray-500">No properties available for the selected status.</p>
+        @else
             <div class="carousel">
                 @foreach($perumahan as $p)
                 <div class="card">
@@ -66,7 +76,10 @@
                 </div>
                 @endforeach
             </div>
-            <button class="carousel-btn right-btn"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+        @endif
+            <button class="carousel-btn right-btn"> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg></button>
         </div>
 
 

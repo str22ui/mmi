@@ -249,9 +249,6 @@ class AdminController extends Controller
     }
 
 
-
-
-
     public function updatePerumahan(Request $request, $id)
     {
         // Validasi input
@@ -277,6 +274,11 @@ class AdminController extends Controller
             'pricelist' => 'nullable|mimes:pdf|max:2048',
             'remove_images' => 'nullable|array',
             'remove_images.*' => 'integer',
+            'video' => ['nullable', 'url', function ($attribute, $value, $fail) {
+                if (!str_contains($value, 'youtube.com') && !str_contains($value, 'youtu.be')) {
+                    $fail('URL video harus berasal dari YouTube.');
+                }
+            }],
         ]);
 
         // Ambil data perumahan
@@ -294,6 +296,7 @@ class AdminController extends Controller
             'status' => $request->status,
             'deskripsi' => $request->deskripsi,
             'maps' => $request->maps,
+            'video' => $request->video,
             'fasilitas' => json_encode($request->fasilitas),
             'keunggulan' => json_encode($request->keunggulan),
             'tipe' => json_encode($request->tipe),
@@ -310,20 +313,12 @@ class AdminController extends Controller
             }
         }
 
-        // // Hapus gambar lama jika ada
-        // if ($request->has('remove_images')) {
-        //     foreach ($request->remove_images as $imageId) {
-        //         $image = PerumahanImage::find($imageId);
-        //         if ($image) {
-        //             // Hapus file dari storage
-        //             if (Storage::exists('public/' . $image->image_path)) {
-        //                 Storage::delete('public/' . $image->image_path);
-        //             }
-        //             // Hapus dari database
-        //             $image->delete();
-        //         }
-        //     }
-        // }
+        $keunggulan = $request->input('keunggulan', []); // Ambil array keunggulan dari form
+        $perumahan->keunggulan = json_encode(array_filter($keunggulan)); // Hapus nilai kosong dan encode JSON
+
+        // Simpan fasilitas baru
+        $fasilitas = $request->input('fasilitas', []); // Ambil array fasilitas dari form
+        $perumahan->fasilitas = json_encode(array_filter($fasilitas)); // Hapus nilai kosong dan encode JSON
 
         // Update brosur
         if ($request->hasFile('brosur')) {
@@ -626,7 +621,8 @@ class AdminController extends Controller
      }
 
      public function createAgent(){
-        return view('admin.agent.createAgent');
+        $perumahan= Perumahan::all();
+        return view('admin.agent.createAgent', compact('perumahan'));
     }
 
     public function storeAgent(Request $request)
@@ -638,6 +634,7 @@ class AdminController extends Controller
             'tipe' => 'required',
             'no_hp' => 'required',
             'alamat' => 'required',
+            'perumahan_id' => 'required',
         ]);
 
         Agent::create($validatedData);
@@ -648,6 +645,7 @@ class AdminController extends Controller
     public function editAgent($id)
     {
         // Coba temukan data agent berdasarkan ID
+        $perumahan= Perumahan::all();
         $agent = Agent::find($id);
 
         // Jika agent tidak ditemukan, tampilkan pesan error atau redirect
@@ -658,6 +656,7 @@ class AdminController extends Controller
         // Jika ditemukan, kirim data ke view
         return view('admin.agent.editAgent', [
             'agent' => $agent,
+            'perumahan' =>$perumahan,
         ]);
     }
 
@@ -672,6 +671,7 @@ class AdminController extends Controller
          $agent->kantor = $request->input('kantor');
          $agent->no_hp = $request->input('no_hp');
          $agent->alamat = $request->input('alamat');
+         $agent->perumahan_id = $request->input('perumahan_id');
 
          // Save the changes to the database
          $agent->save();

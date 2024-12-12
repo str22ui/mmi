@@ -52,6 +52,18 @@
                 <label for="alamat" class="form-label">Alamat</label>
                 <input type="text" value="{{ $agent->alamat }}" name="alamat" id="alamat" placeholder="Masukkan Alamat" class="form-control">
               </div>
+              <div class="mb-3">
+                <label for="perumahan_id" class="form-label block mb-2 text-sm font-medium ">Perumahan</label>
+                <select id="perumahan_id" name="perumahan_id"
+                    class="form-select bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                    <option value="">-- Pilih --</option>
+                    @foreach ($perumahan as $item)
+                        <option value="{{ $item->id }}" {{ $item->id == $agent->perumahan_id ? 'selected' : '' }}>
+                            {{ $item->perumahan }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
 
             <button type="submit" class="btn btn-primary">Update</button>
             <a class="btn btn-danger" href="{{ route('admin.agent') }}">Back</a>

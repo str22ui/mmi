@@ -67,10 +67,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/createPerumahan', [AdminController::class, 'createPerumahan'])->name('admin.createPerumahan');
         Route::post('/storePerumahan', [adminController::class, 'storePerumahan'])->name('admin.storePerumahan');
         Route::get('/perumahan/{id}/', [AdminController::class, 'editPerumahan'])->name('admin.editPerumahan');
-        Route::put('/perumahan/update/{id}', [AdminController::class, 'updatePerumahan'])->name('admin.updatePerumahan');
         Route::delete('/deletePerumahan', [AdminController::class, 'destroyPerumahan'])->name('admin.deletePerumahan');
         Route::post('/admin/perumahan/remove-image', [PerumahanController::class, 'removeImage'])->name('perumahan.removeImage');
 
+        Route::put('/perumahan/update/{id}', [AdminController::class, 'updatePerumahan'])->name('admin.updatePerumahan');
         Route::delete('/deletePerumahanImage', [AdminController::class, 'destroyImage'])->name('admin.deleteImage');
 
         Route::get('/rumah', [AdminController::class, 'indexRumah'])->name('admin.rumah');
@@ -102,7 +102,7 @@ Route::middleware('log.visits')->group(function(){
     Route::get('/perumahan/{kota}', [LandingController::class, 'getPerumahanByKota']);
     Route::get('/perumahan/filter', [PerumahanController::class, 'filterPerumahan']);
 
-    Route::get('/about', [LandingController::class, 'about'])->name('about');
+    Route::get('/about', [LandingController::class, 'about'])->name('about');   
 
     Route::get('/contact', [LandingController::class, 'contact'])->name('contact');
     Route::get('/showProject/{kota}', [LandingController::class, 'showProject'])->name('showProject');

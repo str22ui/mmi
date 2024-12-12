@@ -1,4 +1,4 @@
-<nav id="a" class="fixed z-50 bg-primary ease-linear duration-100 translate-x-0 lg:bg-transparent w-screen top-0 font-[Poppins]">
+<nav id="a" class="fixed z-50 bg-primary ease-linear duration-100 translate-x-0  w-screen top-0 font-[Poppins]">
     <div class="flex justify-between items-center px-5 lg:px-12 xl:px-20">
         <!-- Logo (Selalu Tampil di HP) -->
         <a href="/" class="lg:hidden">

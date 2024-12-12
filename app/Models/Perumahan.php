@@ -40,5 +40,10 @@ class Perumahan extends Model
         return $this->hasMany(Penawaran::class, 'perumahan_id');
     }
 
+    public function agent()
+    {
+        return $this->belongsTo(Agent::class);
+    }
+
 
 }

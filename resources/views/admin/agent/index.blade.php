@@ -28,6 +28,7 @@
                     <th class="col-md-2">Tipe</th>
                     <th class="col-md-2 ">No HP</th>
                     <th class="col-md-2">Alamat</th>
+                    <th class="col-md-2">Perumahan</th>
                     <th class="col-md-3">Action</th>
 
                 </tr>
@@ -42,6 +43,7 @@
                         <td>{{ $a->tipe }}</td>
                         <td>{{ $a->no_hp }}</td>
                         <td>{{ $a->alamat }}</td>
+                        <td>{{ $a->perumahan->perumahan }}</td>
 
 
                         <td>

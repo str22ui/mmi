@@ -8,16 +8,16 @@
 
 		<!-- Table untuk memanggil data dari database -->
         @include('sweetalert::alert')
-		<form method="post" action="{{ route('admin.updatePerumahan', ['id' => $perumahan->id]) }}" enctype="multipart/form-data">
-        @method('PUT')
-        @csrf
+		<form method="POST" action="{{ route('admin.updatePerumahan', ['id' => $perumahan->id]) }}" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
             {{-- Title --}}
 
             <label for="status" class="form-label">Status</label>
             <select class="form-select" id="status" name="status">
                 <option value="Available"
                     {{ $perumahan->status === 'Available' ? 'selected' : '' }}>Available</option>
-                <option value="Sold Out" {{ $perumahan->status === 'Sold Out' ? 'selected' : '' }}>
+                <option value="Sold" {{ $perumahan->status === 'Sold Out' ? 'selected' : '' }}>
                     Sold Out</option>
                 <option value="Soon" {{ $perumahan->status === 'Soon' ? 'selected' : '' }}>
                     Soon</option>
@@ -26,38 +26,10 @@
             <div class="mb-3">
                 <label for="img" class="form-label">Gambar Perumahan (.jpg, .png, .jpeg)</label>
                 <input type="file" class="form-control" id="img" name="images[]" multiple accept="image/*">
-
-                @if(!empty($images) && count($images) > 0)
-                <div class="mt-3">
-                    <label>Gambar Lama:</label>
-                    <div class="d-flex flex-wrap gap-2">
-                        @foreach($images as $image)
-                        <div>
-                    <img src="{{ asset('storage/' . $image->image_path) }}" alt="Foto Lama" style="max-width: 150px; height: auto;">
-                    <form
-                    id="delete-image-form-{{ $image->id }}"
-                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus data?')"
-                    class="d-inline"
-                    action="{{ route('admin.deleteImage') }}"
-                    method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <input type="hidden" name="image_id" value="{{ $image->id }}">
-                    <button type="submit" class="btn btn-danger btn-sm mt-1">Hapus</button>
-                </form>
-
-                </div>
-            @endforeach
-
-
-                    </div>
-                </div>
-            @endif
+                <button type="button" class="btn btn-info mb-3 mt-2" data-bs-toggle="modal" data-bs-target="#imageModal">
+                    Lihat Gambar Lama
+                </button>
             </div>
-
-
-
-
             <div class="mb-3">
               <input type="hidden" value="0" name="views">
               <label for="name" class="form-label">Nama Perumahan</label>
@@ -74,12 +46,6 @@
                 <label for="video" class="form-label">Video</label>
                 <input type="text" class="form-control" id="video" name="video" placeholder="Masukkan URL Video"  value="{{ $perumahan->video }}">
             </div>
-
-            {{-- <div id="tipe-container">
-                <label for="tipe" class="form-label">Tipe (LT/LB)</label>
-                <input type="text" name="tipe[]" placeholder="tipe" class="form-control mb-2">
-            </div>
-            <button type="button" onclick="addTipe()" class="btn btn-secondary mb-3">Tambah Tipe</button> --}}
 
             <div id="tipe-container">
                 <label for="tipe" class="form-label">Tipe (LT/LB)</label>
@@ -129,18 +95,15 @@
                     M</option>
             </select>
 
-            {{-- <div id="advantages-container">
-                <label for="keunggulan" class="form-label">Keunggulan</label>
-                <input type="text" name="keunggulan[]" placeholder="Keunggulan" class="form-control mb-2">
-            </div>
-
-            <button type="button" onclick="addAdvantage()" class="btn btn-secondary mb-3">Tambah Keunggulan</button> --}}
 
             <div id="advantages-container">
                 <label for="keunggulan" class="form-label">Keunggulan</label>
                 @if($perumahan->keunggulan && count($perumahan->keunggulan) > 0)
-                    @foreach($perumahan->keunggulan as $advantage)
-                        <input type="text" name="keunggulan[]" value="{{ $advantage }}" placeholder="Keunggulan" class="form-control mb-2">
+                    @foreach($perumahan->keunggulan as $key => $advantage)
+                        <div class="mb-2 d-flex align-items-center">
+                            <input type="text" name="keunggulan[]" value="{{ $advantage }}" placeholder="Keunggulan" class="form-control me-2">
+                            <button type="button" onclick="removeInput(this)" class="btn btn-danger btn-sm">Hapus</button>
+                        </div>
                     @endforeach
                 @else
                     <input type="text" name="keunggulan[]" placeholder="Keunggulan" class="form-control mb-2">
@@ -149,18 +112,15 @@
             <button type="button" onclick="addAdvantage()" class="btn btn-secondary mb-3">Tambah Keunggulan</button>
 
 
-            {{-- <div id="fasilitas-container">
-                <label for="fasilitas" class="form-label">Fasilitas</label>
-                <input type="text" name="fasilitas[]" placeholder="Fasilitas" class="form-control mb-2">
-            </div>
-
-            <button type="button" onclick="addFasilitas()" class="btn btn-secondary mb-3">Tambah Fasilitas</button> --}}
 
             <div id="fasilitas-container">
                 <label for="fasilitas" class="form-label">Fasilitas</label>
                 @if($perumahan->fasilitas && count($perumahan->fasilitas) > 0)
-                    @foreach($perumahan->fasilitas as $facility)
-                        <input type="text" name="fasilitas[]" value="{{ $facility }}" placeholder="Fasilitas" class="form-control mb-2">
+                    @foreach($perumahan->fasilitas as $key => $facility)
+                        <div class="mb-2 d-flex align-items-center">
+                            <input type="text" name="fasilitas[]" value="{{ $facility }}" placeholder="Fasilitas" class="form-control me-2">
+                            <button type="button" onclick="removeInput(this)" class="btn btn-danger btn-sm">Hapus</button>
+                        </div>
                     @endforeach
                 @else
                     <input type="text" name="fasilitas[]" placeholder="Fasilitas" class="form-control mb-2">
@@ -169,9 +129,10 @@
             <button type="button" onclick="addFasilitas()" class="btn btn-secondary mb-3">Tambah Fasilitas</button>
 
 
+
             <div class="mb-3">
                 <label for="deskripsi" class="form-label">Deskripsi</label>
-                <textarea class="form-control" id="deskripsi" name="deskripsi" value="">{{ $perumahan->deskripsi }}</textarea>
+                <textarea class="ckeditor form-control" id="content" name="deskripsi" value="">{{ $perumahan->deskripsi }}</textarea>
             </div>
 
             <div class="mb-3">
@@ -203,6 +164,45 @@
 
             <a class="btn btn-danger" href="{{ route('admin.perumahan') }}">Back</a>
         </form>
+        <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="imageModalLabel">Gambar Lama</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        @if(!empty($images) && count($images) > 0)
+                            <label>Gambar Lama:</label>
+                            <div class="d-flex flex-wrap gap-2">
+                                @foreach($images as $image)
+                                    <div>
+                                        <img src="{{ asset('storage/' . $image->image_path) }}" alt="Foto Lama" style="max-width: 150px; height: auto;">
+                                        <form
+                                            id="delete-image-form-{{ $image->id }}"
+                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus data?')"
+                                            class="d-inline"
+                                            action="{{ route('admin.deleteImage') }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="hidden" name="image_id" value="{{ $image->id }}">
+                                            <button type="submit" class="btn btn-danger btn-sm mt-1">Hapus</button>
+                                        </form>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <p>Tidak ada gambar lama.</p>
+                        @endif
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
 		{{-- Menampilkan total pemasukan --}}
 		<div class="d-flex align-items-end flex-column p-2 mb-2">
@@ -214,7 +214,7 @@
 </div>
 
 </section>
-
+<script src="https://cdn.ckeditor.com/4.22.1/full-all/ckeditor.js"></script>
 {{-- <script src="{{ asset('ckeditor/ckeditor.js') }}"></script> --}}
     <script>
         document.querySelectorAll('.btn-delete-image').forEach(button => {

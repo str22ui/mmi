@@ -28,18 +28,24 @@
                 <div class="relative md:w-1/3 text-center md:text-right mt-6 md:mt-0 z-10">
                     <p class="mb-6 text-2xl">Kunjungi sosial media kami untuk info dan update terkini</p>
                     <div class="space-y-3 text-sm">
-                        <div class="flex items-center justify-center md:justify-end">
+                        {{-- <div class="flex items-center justify-center md:justify-end">
                             <a href="#"><img src="{{ asset('img/asset/logo-linkedin.png') }}" alt="X" class="w-6 h-6 mr-2"></a>
                             <p class="text-xl">@sheviaheights</p>
+                        </div> --}}
+                        <div class="flex items-center justify-center md:justify-end">
+                            <a href="https://www.instagram.com/sheviaheights/ "> <p class="text-xl">sheviaheights</p></a>
+                            <img src="{{ asset('img/asset/logo-instagram.png') }}" alt="Instagram" class="w-8 h-8 ml-2">
                         </div>
                         <div class="flex items-center justify-center md:justify-end">
+                            <a href="https://www.youtube.com/@HomeInsightTV"> <p class="text-xl">Home Insight TV</p></a>
+                            <img src="{{ asset('img/asset/logo-youtube.png') }}" alt="X" class="w-8 h-6 ml-2">
+                        </div>
+                        {{-- <div class="flex items-center justify-center md:justify-end">
                             <a href="#"><img src="{{ asset('img/asset/logo-tiktok.png') }}" alt="TikTok" class="w-6 h-6 mr-2"></a>
                             <p class="text-xl">@sheviaheights</p>
-                        </div>
-                        <div class="flex items-center justify-center md:justify-end">
-                            <a href=" https://www.instagram.com/sheviaheights/ "><img src="{{ asset('img/asset/logo-instagram.png') }}" alt="Instagram" class="w-6 h-6 mr-2"></a>
-                            <p class="text-xl">@sheviaheights</p>
-                        </div>
+                        </div> --}}
+
+
                     </div>
                 </div>
             </div>

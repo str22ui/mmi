@@ -95,12 +95,13 @@
 
             <div class  mb-3">
                 <label for="deskripsi" class="form-label">Deskripsi</label>
-                    <textarea class="form-control" id="deskripsi" name="deskripsi"></textarea>
+                    <textarea class="ckeditor form-control" id="content" name="deskripsi"></textarea>
                 </div>
+
 
             <div class="mb-3">
                 <label for="maps" class="form-label">Maps</label>
-                <input type="text" class="form-control" id="maps" name="maps" placeholder="Masukkan maps. Cont: https://...">
+                <input type="text" class="form-control" id="maps"  name="maps" placeholder="Masukkan maps. Cont: https://...">
             </div>
 
             <div class="mb-3">
@@ -131,7 +132,7 @@
 </div>
 
 </section>
-
+<script src="https://cdn.ckeditor.com/4.22.1/full-all/ckeditor.js"></script>
 <script>
     const name = document.querySelector('#name');
     const slug = document.querySelector('#slug');
