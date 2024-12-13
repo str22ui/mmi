@@ -205,11 +205,8 @@ class AdminController extends Controller
         $perumahan->tipe = json_decode($perumahan->tipe, true);
         $perumahan->keunggulan = json_decode($perumahan->keunggulan, true);
         $perumahan->fasilitas = json_decode($perumahan->fasilitas, true);
-
-        // $images = PerumahanImage::where('perumahan_id', $id)->pluck('image_path');
-        // $images = PerumahanImage::where('perumahan_id', $id)->pluck('image_path')->toArray();
         $images = PerumahanImage::where('perumahan_id', $id)->get();
-        // $images = PerumahanImage::where('perumahan_id', $id)->pluck('image_path')->toArray();
+
 
 
         return view('admin.perumahan.editPerumahan', [
@@ -612,10 +609,12 @@ class AdminController extends Controller
 
      public function indexAgent()
      {
+         $perumahan = Perumahan::all();
          $agents = Agent::all();
          $user = Auth::user();
          return view('admin.agent.index', [
              'agents' => $agents,
+             'perumahan' => $perumahan,
              // 'user' => $user,
          ]);
      }
@@ -634,9 +633,12 @@ class AdminController extends Controller
             'tipe' => 'required',
             'no_hp' => 'required',
             'alamat' => 'required',
-            'perumahan_id' => 'required',
+            'perumahan_id' => 'nullable|array',
+            'perumahan_id.*' => 'string|max:255',
         ]);
-
+        if ($request->has('perumahan_id')) {
+            $validatedData['perumahan_id'] = json_encode($request->perumahan_id);
+        }
         Agent::create($validatedData);
         return redirect('/agent')->with('success', 'Berhasil Menambahkan Agent');
     }
@@ -644,41 +646,61 @@ class AdminController extends Controller
 
     public function editAgent($id)
     {
-        // Coba temukan data agent berdasarkan ID
-        $perumahan= Perumahan::all();
         $agent = Agent::find($id);
 
-        // Jika agent tidak ditemukan, tampilkan pesan error atau redirect
         if (!$agent) {
             return redirect()->route('admin.agent')->with('error', 'Data Agent tidak ditemukan');
         }
 
-        // Jika ditemukan, kirim data ke view
+        // Decode JSON perumahan_id
+        $agent->perumahan_id = json_decode($agent->perumahan_id, true);
+
+        // Ambil data perumahan berdasarkan ID yang ada di perumahan_id
+         $perumahan = Perumahan::all();
+
+
         return view('admin.agent.editAgent', [
             'agent' => $agent,
-            'perumahan' =>$perumahan,
+            'perumahan' => $perumahan, // Data perumahan yang cocok
         ]);
     }
 
-     public function updateAgent(Request $request, $id)
-     {
-         // Find the agent by id
-         $agent = Agent::find($id);
 
-         // Update the agent's data
-         $agent->nama = $request->input('nama');
-         $agent->tipe = $request->input('tipe');
-         $agent->kantor = $request->input('kantor');
-         $agent->no_hp = $request->input('no_hp');
-         $agent->alamat = $request->input('alamat');
-         $agent->perumahan_id = $request->input('perumahan_id');
 
-         // Save the changes to the database
-         $agent->save();
+    public function updateAgent(Request $request, $id)
+    {
+        // Validasi data
+        $request->validate([
+            'nama' => 'required|max:255',
+            'tipe' => 'required|string  ',
+            'kantor' => 'required|string    ',
+            'no_hp' => 'required|max:255',
+            'alamat' => 'required|max:255',
+            'perumahan_id' => 'required|array',
+            'perumahan_id.*' => 'string|max:255',
+        ]);
 
-         // Redirect back or to any other page
-         return redirect('/agent');
-     }
+        // Temukan agent berdasarkan id
+        $agent = Agent::find($id);
+
+        // Update agent data
+        $agent->update([
+            'nama' => $request->nama,
+            'tipe' => $request->tipe,
+            'kantor' => $request->kantor,
+            'no_hp' => $request->no_hp,
+            'alamat' => $request->alamat,
+            'perumahan_id' => json_encode($request->perumahan_id),
+        ]);
+
+        // Simpan perubahan
+        $agent->save();
+
+        // Redirect kembali ke halaman agent
+        return redirect('/agent');
+    }
+
+
 
     public function destroyAgent(Request $request)
     {

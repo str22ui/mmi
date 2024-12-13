@@ -264,13 +264,20 @@ class LandingController extends Controller
     public function formPenawaran($id)
     {
         $allPerumahan = Perumahan::all();
-        $agents = Agent::where('perumahan_id', $id)->get();
+
+        // Filter agents berdasarkan perumahan_id (dengan JSON)
+        $agents = Agent::whereJsonContains('perumahan_id', $id)->get();
+
+        // Ambil data rumah berdasarkan perumahan_id
         $rumah = Rumah::where('perumahan_id', $id)->orderBy('no_kavling', 'asc')->get();
 
-        return view('client.page.formPenawaran', compact('allPerumahan', 'agents', 'rumah'))
-             ->with('selectedPerumahan', Perumahan::findOrFail($id));
+        // Data perumahan yang dipilih
+        $selectedPerumahan = Perumahan::findOrFail($id);
 
+        // Kembalikan data ke view
+        return view('client.page.formPenawaran', compact('allPerumahan', 'agents', 'rumah', 'selectedPerumahan'));
     }
+
 
     public function storePenawaranKonsumen(Request $request)
     {

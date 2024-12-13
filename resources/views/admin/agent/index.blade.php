@@ -43,8 +43,27 @@
                         <td>{{ $a->tipe }}</td>
                         <td>{{ $a->no_hp }}</td>
                         <td>{{ $a->alamat }}</td>
-                        <td>{{ $a->perumahan->perumahan }}</td>
+                        <td>
+                            @php
+                                $perumahanIds = json_decode($a->perumahan_id, true); // Decode JSON
+                                $perumahans = $perumahan; // Pastikan $perumahan berisi koleksi data perumahan
+                            @endphp
 
+                            @if (is_array($perumahanIds) && $perumahans)
+                                @foreach ($perumahanIds as $id)
+                                    @php
+                                        $perumahan = $perumahans->firstWhere('id', $id); // Cari perumahan berdasarkan ID
+                                    @endphp
+                                    @if ($perumahan)
+                                        <span class="badge bg-info text-dark">{{ $perumahan->perumahan }}</span>
+                                    @else
+                                        <span class="badge bg-danger text-white">Perumahan Tidak Ditemukan</span>
+                                    @endif
+                                @endforeach
+                            @else
+                                <span class="text-muted">N/A</span>
+                            @endif
+                        </td>
 
                         <td>
                             {{-- <a href='{{ route('admin.showTeacher', ['management' => $m->slug])  }}' class="btn btn-primary btn-sm"><i class="bi bi-eye-fill"></i></a> --}}
