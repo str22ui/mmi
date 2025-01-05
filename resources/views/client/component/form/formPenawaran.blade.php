@@ -151,7 +151,7 @@
                                 data-lt="{{ $r->luas_tanah }}"
                                 data-lb="{{ $r->luas_bangunan }}"
                                 data-posisi="{{ $r->posisi }}"
-                                data-harga="{{ $r->harga }}"
+                                data-harga="Rp {{ $r->harga }}"
                                 {{ $r->status !== 'Available' ? 'disabled' : '' }}>
                                 {{ $r->no_kavling }}
                                 {{ $r->status !== 'Available' ? '(' . $r->status . ')' : '' }}
@@ -192,13 +192,14 @@
             </div>
 
             <div class="mb-5 relative">
-                <label for="harga" class="form-label block mb-2 text-sm font-medium "><i class="fa-solid fa-money-bill  text-gray-400 mr-2"></i></i>Harga</label>
+                <label for="harga" class="form-label block mb-2 text-sm font-medium">
+                    <i class="fa-solid fa-money-bill text-gray-400 mr-2"></i>Harga
+                </label>
                 <div class="input-with-icon">
                     <input type="text" id="harga" name="harga"
                         class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" readonly>
                 </div>
             </div>
-
                 <div class="mb-5">
                     <label for="payment" class="form-label block mb-2 text-sm font-medium"><i class="fa fa-credit-card text-gray-400 mr-2"></i>Payment</label>
                     <select id="payment" name="payment"
@@ -273,5 +274,6 @@
             });
         }
     });
+
 </script>
 

@@ -416,7 +416,7 @@ class AdminController extends Controller
             'luas_bangunan' => 'nullable',
             'posisi' => 'required',
             'harga' => 'required',
-            'perumahan_id' => 'required',
+            'perumahan_id' => 'required|numeric',
             'status' => 'required',
         ]);
 
@@ -442,7 +442,19 @@ class AdminController extends Controller
             'perumahan' => $perumahan,
         ]);
     }
+    public function destroyRumah(Request $request)
+    {
+        // Ambil ID dari request
+        \Log::info($request->id);
 
+        $rumah = Rumah::findOrFail($request->id);
+
+        // Hapus data
+        $rumah->delete();
+
+        // Redirect kembali dengan pesan sukses
+        return redirect('/rumah')->with('success', 'Berhasil Menghapus Rumah');
+    }
      public function updateRumah(Request $request, $id)
      {
          // Find the agent by id
@@ -464,20 +476,10 @@ class AdminController extends Controller
          return redirect('/rumah');
      }
 
-    public function destroyRumah(Request $request)
-    {
-        // Ambil ID dari request
-        $rumah = Rumah::findOrFail($request->id);
 
-        // Hapus data
-        $rumah->delete();
 
-        // Redirect kembali dengan pesan sukses
-        return redirect('/rumah')->with('success', 'Berhasil Menghapus Rumah');
-    }
     // ============ END RUMAH ================
-
-    // ============ KONSUMEN ================
+// ============ KONSUMEN ================
     public function indexKonsumen()
     {
         $konsumen = Konsumen::with('agent')->get();
@@ -538,6 +540,52 @@ class AdminController extends Controller
 
         // Redirect kembali dengan pesan sukses
         return redirect('/konsumen')->with('success', 'Berhasil Menghapus Konsumen');
+    }
+
+    public function editKonsumen($id)
+    {
+        // Coba temukan data konsumen berdasarkan ID
+        $konsumen = Konsumen::find($id);
+        $rumah = Rumah::find($id);
+        $perumahan = Perumahan::all();
+        $agent = Agent::all();
+
+        // Jika konsumen tidak ditemukan, tampilkan pesan error atau redirect
+        if (!$konsumen) {
+            return redirect()->route('admin.konsumen')->with('error', 'Data Konsumen tidak ditemukan');
+        }
+
+        // Jika ditemukan, kirim data ke view
+        return view('admin.konsumen.editKonsumen', [
+            'konsumen' => $konsumen,
+            'perumahan' => $perumahan,
+            'agent' => $agent,
+            'rumah' => $rumah,
+        ]);
+    }
+
+
+    public function updateKonsumen(Request $request, $id)
+    {
+        // Find the agent by id
+        $konsumen = konsumen::find($id);
+
+        // Update the agent's data
+        $konsumen->nama_konsumen = $request->input('nama_konsumen');
+        $konsumen->no_hp = $request->input('no_hp');
+        $konsumen->domisili = $request->input('domisili');
+        $konsumen->email = $request->input('email');
+        $konsumen->pekerjaan = $request->input('pekerjaan');
+        $konsumen->nama_kantor = $request->input('nama_kantor');
+        $konsumen->perumahan = $request->input('perumahan');
+        $konsumen->sumber_informasi = $request->input('sumber_informasi');
+        $konsumen->agent_id = $request->input('agent_id');
+
+        // Save the changes to the database
+        $konsumen->save();
+
+        // Redirect back or to any other page
+        return redirect('/konsumen');
     }
     // ============ END KONSUMEN ================
 
@@ -783,12 +831,14 @@ class AdminController extends Controller
         return redirect('/report')->with('success', 'Report berhasil ditambahkan.');
     }
 
-    public function editReports($id)
+    public function editReport($id)
     {
+        $konsumen = Konsumen::all();
         $report = Report::findOrFail($id);
 
         return view('admin.report.editReport', [
             'report' => $report,
+            'konsumen' => $konsumen
 
         ]);
     }

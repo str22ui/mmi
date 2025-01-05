@@ -18,7 +18,7 @@
             <div>
                 <h3 class="font-bold mb-2">Location</h3>
                 <p class="text-sm">Sawangan Village Cluster Swarna Asri A-08 Jl. Raya Mokhtar, Kelurahan Bedahan Kecamatan Sawangan Kota Depok 16511</p>
-                <p class="mt-2"><i class="fas fa-phone-alt"></i> 021 - 77972409 (office)</p>
+                {{-- <p class="mt-2"><i class="fas fa-phone-alt"></i> 021 - 77972409 (office)</p> --}}
             </div>
         </div>
     </div>

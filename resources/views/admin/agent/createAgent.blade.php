@@ -61,7 +61,7 @@
 
 
             <button type="submit" class="btn btn-primary">Create</button>
-            <a class="btn btn-danger" href="{{ route('admin.perumahan') }}">Back</a>
+            <a class="btn btn-danger" href="{{ route('admin.agent') }}">Back</a>
         </form>
 
 		{{-- Menampilkan total pemasukan --}}

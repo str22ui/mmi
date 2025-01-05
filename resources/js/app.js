@@ -246,3 +246,4 @@ document.querySelectorAll('.btn-delete-image').forEach(button => {
         document.getElementById(formId).submit();
     });
 });
+

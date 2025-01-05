@@ -222,7 +222,8 @@ class LandingController extends Controller
     {
         $allPerumahan = Perumahan::all(); // Ambil semua data Perumahan
         $selectedPerumahan = Perumahan::findOrFail($id); // Data spesifik berdasarkan ID
-        $agents = Agent::all(); // Semua data agents
+        // $agents = Agent::all();
+        $agents = Agent::whereJsonContains('perumahan_id', $id)->get();
 
         return view('client.page.form', compact('allPerumahan', 'selectedPerumahan', 'agents'));
     }
@@ -309,6 +310,7 @@ class LandingController extends Controller
                 ->withInput();
         }
     }
+
 
 
     public function downloadBrosur($id)

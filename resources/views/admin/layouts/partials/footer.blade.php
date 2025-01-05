@@ -195,8 +195,37 @@ fetch('/admin/perumahan/remove-image', {
     function removeInput(button) {
     button.parentElement.remove(); // Menghapus elemen induk (input + tombol)
 }
+// function formatHarga(input) {
+//     // Menghapus semua karakter yang bukan angka
+//     let value = input.value.replace(/\D/g, '');
 
+//     // Menambahkan titik pada 3 digit terakhir
+//     if (value.length > 3) {
+//         const lastThreeDigits = value.slice(-3);
+//         const otherDigits = value.slice(0, -3);
+//         value = otherDigits + '.' + lastThreeDigits;
+//     }
 
+//     // Mengupdate nilai input
+//     input.value = value;
+// }
+function formatHarga(input) {
+    // Menghapus semua karakter yang bukan angka
+    let value = input.value.replace(/\D/g, '');
+
+    // Memformat angka dengan menambahkan titik setiap 3 digit
+    let formattedValue = '';
+    for (let i = 0; i < value.length; i++) {
+        // Tambahkan titik setiap 3 digit dari belakang
+        if (i > 0 && (value.length - i) % 3 === 0) {
+            formattedValue += '.';
+        }
+        formattedValue += value[i];
+    }
+
+    // Mengupdate nilai input
+    input.value = formattedValue;
+}
 </script>
 
 @stack('js')

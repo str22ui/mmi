@@ -40,7 +40,7 @@
 
             <div class="mb-3">
                 <label for="harga" class="form-label">Harga</label>
-                <input type="text" autofocus value="" name="harga" id="harga" placeholder="Masukkan Harga" class="form-control">
+                <input type="text" autofocus value="" name="harga" id="harga" placeholder="Masukkan Harga" class="form-control" oninput="formatHarga(this)">
             </div>
 
             <div class="mb-3">
@@ -70,7 +70,7 @@
 
 
             <button type="submit" class="btn btn-primary">Create</button>
-            <a class="btn btn-danger" href="{{ route('admin.perumahan') }}">Back</a>
+            <a class="btn btn-danger" href="{{ route('admin.rumah') }}">Back</a>
         </form>
 
 		{{-- Menampilkan total pemasukan --}}
@@ -94,6 +94,19 @@ document.getElementById('tipe').addEventListener('change', function() {
                 kantorInput.readOnly = false;
             }
         });
+
+//     document.getElementById('harga').addEventListener('input', function (e) {
+//     var value = e.target.value;
+//     value = value.replace(/\D/g, ''); // Hapus karakter non-digit
+//     var formattedValue = '';
+//     while (value.length > 3) {
+//         formattedValue = '.' + value.slice(-3) + formattedValue;
+//         value = value.slice(0, -3);
+//     }
+//     e.target.value = value + formattedValue;
+// });
+
+
 </script>
 
 

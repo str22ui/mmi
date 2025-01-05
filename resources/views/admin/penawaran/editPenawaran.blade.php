@@ -71,7 +71,7 @@
 
 
             <button type="submit" class="btn btn-primary">Update</button>
-            <a class="btn btn-danger" href="{{ route('admin.rumah') }}">Back</a>
+            <a class="btn btn-danger" href="{{ route('admin.penawaran') }}">Back</a>
         </form>
 
 		{{-- Menampilkan total pemasukan --}}

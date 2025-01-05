@@ -84,10 +84,13 @@
                     {{-- @if(auth()->user()->role === 'admin'|| Auth::user()->role == 'salesAdmin' || Auth::user()->role == 'sales') --}}
                     <td>
                           {{-- @if(auth()->user()->role === 'admin') --}}
-                        <form method="POST" action="/reports/{{ $r->id }}">
+                        {{-- <form method="POST" action="/reports/{{ $r->id }}">
                             @csrf
                             <button type="submit" class="btn btn-primary">Edit</button>
-                        </form>
+                        </form> --}}
+                        <a href="{{ route('admin.editReport', ['id' => $r->id]) }}">
+                            <button type="submit" class="btn btn-primary">Edit</button>
+                        </a>
                         {{-- @endif --}}
                         <form method="POST" action="/addReports/{{ $r->id }}">
                             @csrf

@@ -56,14 +56,14 @@
                     <div class="card-actions">
                         @if ($p->status === 'Available')
                             <a href="/form/{{ $p->id }}" class="btn-download">
-                                <i class="fas fa-file-download" style="color:blue"></i> Download Pricelist
+                                <i class="fas fa-file-download" style="color:blue"></i> Download Pricelist & Brosur
                             </a>
                             <a href="/formPenawaran/{{ $p->id }}" class="btn-penawaran">
                                 <i class="fas fa-handshake"></i> Penawaran
                             </a>
                         @else
                             <button disabled class="btn-disabled">
-                                <i class="fas fa-file-download"></i> Download Pricelist
+                                <i class="fas fa-file-download"></i> Download Pricelist & Brosur
                             </button>
                             <button disabled class="btn-disabled">
                                 <i class="fas fa-handshake"></i> Penawaran

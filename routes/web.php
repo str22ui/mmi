@@ -27,6 +27,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/konsumen', [AdminController::class, 'indexKonsumen'])->name('admin.konsumen');
     Route::get('/createKonsumen', [AdminController::class, 'createKonsumen'])->name('admin.createKonsumen');
     Route::post('/storeKonsumen', [adminController::class, 'storeKonsumen'])->name('admin.storeKonsumen');
+    Route::get('/konsumen/{id}/', [AdminController::class, 'editKonsumen'])->name('admin.editKonsumen');
+    Route::put('/konsumen/update/{id}', [AdminController::class, 'updateKonsumen'])->name('admin.updateKonsumen');
     Route::delete('/deleteKonsumen', [AdminController::class, 'destroyKonsumen'])->name('admin.deleteKonsumen');
 
     //Penawaran
@@ -79,7 +81,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/storeRumah', [adminController::class, 'storeRumah'])->name('admin.storeRumah');
         Route::get('/rumah/{id}/', [AdminController::class, 'editRumah'])->name('admin.editRumah');
         Route::put('/rumah/update/{id}', [AdminController::class, 'updateRumah'])->name('admin.updateRumah');
-        Route::delete('/deleteRumah ', [AdminController::class, 'destroyRumah'])->name('admin.deleteRumah');
+        Route::delete('/deleteRumah', [AdminController::class, 'destroyRumah'])->name('admin.deleteRumah');
     });
 
 });
@@ -102,7 +104,7 @@ Route::middleware('log.visits')->group(function(){
     Route::get('/perumahan/{kota}', [LandingController::class, 'getPerumahanByKota']);
     Route::get('/perumahan/filter', [PerumahanController::class, 'filterPerumahan']);
 
-    Route::get('/about', [LandingController::class, 'about'])->name('about');   
+    Route::get('/about', [LandingController::class, 'about'])->name('about');
 
     Route::get('/contact', [LandingController::class, 'contact'])->name('contact');
     Route::get('/showProject/{kota}', [LandingController::class, 'showProject'])->name('showProject');

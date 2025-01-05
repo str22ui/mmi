@@ -42,7 +42,7 @@
 
             <div class="mb-3">
                 <label for="harga" class="form-label">Harga</label>
-                <input type="text"  value="{{ $rumah->harga }}" name="harga" id="harga" placeholder="Masukkan Harga" class="form-control">
+                <input type="text" value="{{ $rumah->harga }}" name="harga" id="harga" placeholder="Masukkan Harga" class="form-control" oninput="formatHarga(this)">
             </div>
 
             <div class="mb-3">
@@ -95,6 +95,7 @@ document.getElementById('tipe').addEventListener('change', function() {
                 kantorInput.readOnly = false;
             }
         });
+
 </script>
 
 

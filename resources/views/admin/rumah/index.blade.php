@@ -54,7 +54,7 @@
                         <td>{{ $r->no_kavling }}</td>
                         <td>{{ $r->luas_tanah}}/{{ $r->luas_bangunan }}</td>
                         <td>{{ $r->posisi }}</td>
-                        <td>{{ $r->harga }}</td>
+                        <td>Rp {{ $r->harga }}</td>
                         <td>{{ $r->status }}</td>
                         <td>{{ $r->perumahan->perumahan }}</td>
 
