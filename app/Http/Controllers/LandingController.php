@@ -14,6 +14,7 @@ use App\Models\Agent;
 use App\Models\PerumahanImage;
 use App\Models\Konsumen;
 use App\Models\Visit;
+use App\Models\Survey;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
@@ -308,6 +309,58 @@ class LandingController extends Controller
                 ->back()
                 ->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi.'])
                 ->withInput();
+        }
+    }
+
+
+    public function formSurvey($id)
+    {
+        $allPerumahan = Perumahan::all(); // Ambil semua data Perumahan
+        $selectedPerumahan = Perumahan::findOrFail($id); // Data spesifik berdasarkan ID
+        // $agents = Agent::all();
+        $agents = Agent::whereJsonContains('perumahan_id', $id)->get();
+
+        return view('client.page.formSurvey', compact('allPerumahan', 'selectedPerumahan', 'agents'));
+    }
+
+
+    public function storeSurvey(Request $request)
+    {
+        $validatedData = $request->validate([
+            'nama_konsumen' => 'required',
+            'no_hp' => 'required',
+            'domisili' => 'nullable',
+            'email' => 'nullable|email',
+            'pekerjaan' => 'nullable',
+            'nama_kantor' => 'nullable',
+            'perumahan' => 'required',
+            'tanggal_janjian' => 'required|date',
+            'waktu_janjian' => 'required',
+            'sumber_informasi' => 'required',
+            'agent_id' => 'nullable',
+        ]);
+
+        // Jika agent_id adalah 'pilih', set ke null
+        if ($request->input('agent_id') === 'pilih') {
+            $validatedData['agent_id'] = null;
+        } else {
+            $validatedData['agent_id'] = $request->input('agent_id');
+        }
+
+        try {
+            // Simpan data ke tabel survey
+            Survey::create($validatedData);
+
+            // Persiapkan data untuk tabel konsumen
+            $konsumenData = $validatedData;
+            unset($konsumenData['tanggal_janjian'], $konsumenData['waktu_janjian']); // Hapus kolom yang tidak ada di tabel konsumen
+
+            // Simpan data ke tabel konsumen
+            Konsumen::create($konsumenData);
+
+            return redirect()->back()->with('success', 'Survey dan data konsumen berhasil disimpan.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data.']);
         }
     }
 

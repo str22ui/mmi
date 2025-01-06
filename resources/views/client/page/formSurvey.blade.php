@@ -5,6 +5,6 @@
 
 @section('content')
     {{-- Hero --}}
-    @include('client.component.form.formPenawaran')
+    @include('client.component.form.formSurvey')
 
 @endsection
